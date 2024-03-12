@@ -1,7 +1,7 @@
 export default function NavSocials() {
     return (
-        <ul className="navbar-nav d-flex">
-            <li className="nav-item">
+        <ul className="list-unstyled">
+            <li className="py-2">
                 <a
                     className={"nav-link text-secondary-emphasis"}
                     href="https://www.facebook.com"
@@ -21,7 +21,7 @@ export default function NavSocials() {
                     </svg>
                 </a>
             </li>
-            <li className="nav-item">
+            <li className="py-2">
                 <a
                     className={"nav-link text-secondary-emphasis"}
                     href="https://www.twitter.com"
@@ -41,7 +41,7 @@ export default function NavSocials() {
                     </svg>
                 </a>
             </li>
-            <li className="nav-item">
+            <li className="py-2">
                 <a
                     className={"nav-link text-secondary-emphasis"}
                     href="https://www.instagram.com"
@@ -61,8 +61,7 @@ export default function NavSocials() {
                     </svg>
                 </a>
             </li>
-
-            <li className="nav-item">
+            <li className="py-2">
                 <a
                     className={"nav-link text-secondary-emphasis"}
                     href="https://www.youtube.com"
