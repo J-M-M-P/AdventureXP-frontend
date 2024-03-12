@@ -1,5 +1,5 @@
-import NavHeader from "./header/NavHeader";
-import NavFooter from "./footer/NavFooter";
+import NavHeader from "./Nav/header/NavHeader";
+import NavFooter from "./Nav/footer/NavFooter";
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -13,8 +13,7 @@ const Layout = ({ children }: LayoutProps) => {
             </header>
             <main>{children}</main>
             <footer>
-
-            <NavFooter />
+                <NavFooter />
             </footer>
         </div>
     );
