@@ -9,7 +9,7 @@ export default function NavRoutes() {
                 </NavLink>
             </li>
             <li className="nav-item">
-                <NavLink className={"nav-link"} to="/aktivitet">
+                <NavLink className={"nav-link"} to="/activity">
                     Aktiviteter
                 </NavLink>
             </li>
@@ -19,7 +19,7 @@ export default function NavRoutes() {
                 </NavLink>
             </li>
             <li className="nav-item">
-                <NavLink className={"nav-link"} to="/udstyr">
+                <NavLink className={"nav-link"} to="/utility">
                     Udstyr
                 </NavLink>
             </li>

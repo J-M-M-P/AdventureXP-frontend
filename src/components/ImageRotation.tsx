@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import images from "./images";
+import images from "../testingLists/images";
 // Add more imports for other images if needed
 
 function RotatingImage() {
@@ -20,7 +20,7 @@ function RotatingImage() {
         <img
             src={images[imageIndex]}
             alt="Rotating image"
-            className="img-fluid"
+            className="img-fluid rounded"
             style={{ height: "300px", width: "300px" }}
         />
     );
