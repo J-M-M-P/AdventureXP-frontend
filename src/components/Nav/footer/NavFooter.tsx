@@ -15,17 +15,17 @@ export default function NavFooter() {
                         <NavSocials />
                     </div>
                     <div className="col ">
-                        <h5 className="text-body-emphasis">Contact</h5>
-                        <p className="nav-item text-secondary-emphasis">123-456-7890</p>
-                        <p className="nav-item text-secondary-emphasis"> 1234 Main St</p>
+                        <h5 className="text-body-emphasis pt-4 pb-3">Contact</h5>
+                        <ul className="list-unstyled">
+                            <li className="nav-item text-secondary-emphasis">Guldbergsgade 29N</li>
+                            <li className="nav-item text-secondary-emphasis">2200 København N</li>
+                            <li className="nav-item text-secondary-emphasis pt-3">tlf. +45 46 46 00 00</li>
+                        </ul>
                     </div>
                 </div>
-                {/* Footer Bottom */}
-                <div className="container">
-                    <p className="text-xs-center text-dark-emphasis">
-                        &copy;{new Date().getFullYear()} AdventureXP - All Rights Reserved
-                    </p>
-                </div>
+                <p className="text-xs-center text-dark-emphasis">
+                    &copy;{new Date().getFullYear()} AdventureXP - All Rights Reserved
+                </p>
             </div>
         </nav>
     );
