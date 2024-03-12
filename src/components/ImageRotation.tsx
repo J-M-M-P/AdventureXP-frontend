@@ -14,13 +14,20 @@ function RotatingImage() {
     useEffect(() => {
         const timer = setInterval(() => {
             setImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-        }, 2000); // Change image every 2 seconds
+        }, 4000); // Change image every 2 seconds
 
         // Clean up function to clear the timer when the component unmounts
         return () => clearInterval(timer);
     }, [images.length]);
 
-    return <img src={images[imageIndex]} alt="Rotating image" className="img-fluid" />;
+    return (
+        <img
+            src={images[imageIndex]}
+            alt="Rotating image"
+            className="img-fluid"
+            style={{ height: "300px", width: "300px" }}
+        />
+    );
 }
 
 export default RotatingImage;
