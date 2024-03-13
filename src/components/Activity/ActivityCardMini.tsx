@@ -6,7 +6,7 @@ interface ActivityCardProps {
     description: string;
 }
 
-export default function ActivityCard({ imageSrc, title, description }: ActivityCardProps) {
+export default function ActivityCardMini({ imageSrc, title, description }: ActivityCardProps) {
     return (
         <>
             <NavLink to={"/activity"} className={"px-0 link-underline link-underline-opacity-0"}>
