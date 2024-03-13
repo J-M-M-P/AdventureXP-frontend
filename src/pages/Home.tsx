@@ -30,7 +30,12 @@ export default function Home() {
             <div className="container-fluid mt-5 pt-3">
                 <div className="row row-cols-3 row-gap-5 column-gap-3 justify-content-center">
                     {activityCards.map((card, index) => (
-                        <ActivityCard key={index} imageSrc={card.imageSrc} title={card.title} text={card.text} />
+                        <ActivityCard
+                            key={index}
+                            imageSrc={card.imageSrc}
+                            title={card.title}
+                            description={card.description}
+                        />
                     ))}
                 </div>
             </div>

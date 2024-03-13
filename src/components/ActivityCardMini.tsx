@@ -3,10 +3,10 @@ import { NavLink } from "react-router-dom";
 interface ActivityCardProps {
     imageSrc: string;
     title: string;
-    text: string;
+    description: string;
 }
 
-export default function ActivityCard({ imageSrc, title, text }: ActivityCardProps) {
+export default function ActivityCard({ imageSrc, title, description }: ActivityCardProps) {
     return (
         <>
             <NavLink to={"/activity"} className={"px-0 link-underline link-underline-opacity-0"}>
@@ -23,7 +23,7 @@ export default function ActivityCard({ imageSrc, title, text }: ActivityCardProp
                         <div className="col-md-8">
                             <div className="card-body">
                                 <h5 className="card-title">{title}</h5>
-                                <p className="card-text">{text}</p>
+                                <p className="card-text">{description}</p>
                             </div>
                         </div>
                     </div>
