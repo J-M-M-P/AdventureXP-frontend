@@ -3,9 +3,9 @@ import NavSocials from "./NavSocials";
 
 export default function NavFooter() {
     return (
-        <nav className="navbar sticky-bottom bg-body-tertiary" data-bs-theme="dark">
+        <nav className="navbar sticky-bottom bg-dark" data-bs-theme="dark">
             <div className="container text-center">
-                <div className="row w-100 justify-content-md-center">
+                <div className="row w-100 justify-content-md-center mt-3">
                     <div className="col ">
                         <h5 className="text-body-emphasis">Links</h5>
                         <NavRoutes />

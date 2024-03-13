@@ -8,11 +8,11 @@ type LayoutProps = {
 const Layout = ({ children }: LayoutProps) => {
     return (
         <div>
-            <header>
+            <header className="mb-5">
                 <NavHeader />
             </header>
             <main>{children}</main>
-            <footer>
+            <footer className="mt-5 pt-5">
                 <NavFooter />
             </footer>
         </div>
