@@ -1,4 +1,4 @@
-import ActivityCard from "../components/ActivityCard";
+import ActivityCard from "../components/ActivityCardMini";
 import RotatingImage from "../components/ImageRotation";
 import activityCards from "../testingLists/activities";
 
