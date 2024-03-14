@@ -5,7 +5,7 @@ function ReservationTable() {
         let startTime = 9; // Initialize the start time to 9
 
         // Loop gennem timer fra 9 til 21
-        for (let hour = 9; hour <= 21; hour++) {
+        for (let hour = 9; hour <= 23; hour++) {
             // Hvis timen er ulige, tilføj en række
             if (hour % 2 !== 0) {
                 const startHour = Math.floor(startTime); // Få hele timen
@@ -32,7 +32,7 @@ function ReservationTable() {
                         <td>{`${startTimeString} - ${endTimeString}`}</td>
                         {/* Tilføj celler for hver dag i ugen baseret på columnCount */}
                         {Array.from({ length: 7 }, (_, index) => (
-                            <td key={index}></td>
+                            <td key={index}>Ledig</td>
                         ))}
                     </tr>
                 );
