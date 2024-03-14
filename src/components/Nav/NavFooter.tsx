@@ -1,4 +1,4 @@
-import NavRoutes from "../NavRoutes";
+import NavRoutes from "./NavRoutes";
 import NavSocials from "./NavSocials";
 
 export default function NavFooter() {
