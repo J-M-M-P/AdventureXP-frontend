@@ -28,8 +28,8 @@ export default function ComponentOne() {
     // Funktion til at håndtere ændringen i dropdown'en
     const handleDropdownChange = (event) => {
         const selectedIndex = event.target.selectedIndex;
-        console.log("selectedIndex", selectedIndex);
-        console.log("options", selectedOption);
+        // console.log("selectedIndex", selectedIndex);
+        // console.log("options", selectedOption);
         setSelectedOption(options[selectedIndex - 1]); // -1 fordi den første option er en placeholder
     };
 
