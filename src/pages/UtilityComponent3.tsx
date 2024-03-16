@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getActivities, getEquipment, updateEquipmentInDatabase } from "../service/apiFacade";
+import { EquipmentDto } from "./EquipmentDto";
 
 interface Activity {
     activityName: string;
@@ -9,6 +10,7 @@ interface Activity {
 export interface Equipment {
     id: number;
     name: string;
+    totalUnits: number;
     activityName: string;
     defectiveUnits: number;
     activityId: number;
@@ -23,6 +25,7 @@ export default function UtilityComponent3() {
     const [activities, setActivities] = useState<Activity[]>([]);
     const [equipment, setEquipment] = useState<Equipment[]>([]);
     const [filteredEquipment, setFilteredEquipment] = useState<Equipment[]>([]);
+    const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null); // State to hold selected equipment
 
     useEffect(() => {
         async function fetchData() {
@@ -44,44 +47,32 @@ export default function UtilityComponent3() {
 
     const handleUtilityTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setUtilityType(event.target.value);
+        // Find the selected equipment from the equipment list based on the utility type
+        const selected = equipment.find(item => item.name === event.target.value);
+        setSelectedEquipment(selected || null); // Update selected equipment state
     };
 
     const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setQuantity(event.target.value);
     };
 
-    async function handleSend() {
-        //Check if activity and utilityType are selected
-        if (!activity || !utilityType || !quantity) {
-            console.error('Activity, Utility Type, or Quantity is not selected');
-            // Handle the error appropriately, maybe show a message to the user
-            return;
-        }
-    
-        // Find the equipment object corresponding to the selected utilityType
-        const selectedEquipment = equipment.find(item => item.name === utilityType);
-        
-        // Check if the selected equipment is found
+    const handleSend = async () => {
         if (!selectedEquipment) {
-            console.error('Selected equipment not found');
-            // Handle the error appropriately, maybe show a message to the user
+            console.error('No equipment selected');
             return;
         }
-    
-        // Check if the selected activity matches the activity name associated with the selected equipment
-        if (selectedEquipment.activityName !== activity) {
-            console.error('Selected activity does not match the activity associated with the selected equipment');
-            // Handle the error appropriately, maybe show a message to the user
-            return;
-        }
-    
-        // Update the defectiveUnits property of the selected equipment
+
         const updatedDefectiveUnits = selectedEquipment.defectiveUnits + parseInt(quantity);
-    
-        // Create an updated equipment object with the new defectiveUnits value
-        const updatedEquipment = { ...selectedEquipment, defectiveUnits: updatedDefectiveUnits };
+        const updatedEquipment: EquipmentDto = {
+            id: selectedEquipment.id,
+            name: selectedEquipment.name,
+            status: selectedEquipment.status,
+            totalUnits: selectedEquipment.totalUnits,
+            defectiveUnits: updatedDefectiveUnits,
+            activityId: selectedEquipment.activityId,
+            activityName: selectedEquipment.activityName,
+        };
         console.log('Updated equipment:', updatedEquipment);
-        // Send a PUT request to update the equipment in the database
         try {
             const updatedEquipmentData = await updateEquipmentInDatabase(selectedEquipment.id, updatedEquipment);
             console.log('Equipment updated successfully:', updatedEquipmentData);
@@ -90,7 +81,7 @@ export default function UtilityComponent3() {
             console.error('Failed to update equipment:', error);
             // Handle the error appropriately, maybe show a message to the user
         }
-        }    
+    };
 
     return (
         <div>
