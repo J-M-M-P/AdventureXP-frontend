@@ -23,7 +23,10 @@ function Reservation() {
         <>
             <div className="container-sm justify-content-center">
                 <h1 className="mb-5 text-center">Reservation</h1>
-                <ReservationTable currentWeek={currentWeek} />
+                <ReservationTable
+                    currentWeek={currentWeek}
+                    bookedTimes={[{ week: 14, time: "19:30 - 21:00", day: "Fredag" }]}
+                />
             </div>
             <div className="container-sm justify-content-center">
                 <ReservationWeek currentWeek={currentWeek} onPrevWeek={handlePrevWeek} onNextWeek={handleNextWeek} />
