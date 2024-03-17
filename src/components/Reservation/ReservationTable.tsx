@@ -1,53 +1,126 @@
-function ReservationTable() {
+interface Props {
+    currentWeek: number;
+}
+
+function ReservationTable({ currentWeek }: Props) {
     // Funktion til at generere rækker med tidsintervaller for en given kolonne
     const generateTimeRows = () => {
-        const rows = [];
-        let startTime = 9; // Initialize the start time to 9
+        // Skift denne del ud med din logik til at hente data for den givne uge
+        const weekData = [
+            {
+                week: currentWeek,
+                time: "09:00 - 10:30",
+                Monday: "Ledig",
+                Tuesday: "Ledig",
+                Wednesday: "Ledig",
+                Thursday: "Ledig",
+                Friday: "Ledig",
+                Saturday: "Ledig",
+                Sunday: "Ledig",
+            },
+            {
+                week: currentWeek,
+                time: "10:30 - 12:00",
+                Monday: "Ledig",
+                Tuesday: "Ledig",
+                Wednesday: "Ledig",
+                Thursday: "Ledig",
+                Friday: "Ledig",
+                Saturday: "Ledig",
+                Sunday: "Ledig",
+            },
+            {
+                week: currentWeek,
+                time: "12:00 - 13:30",
+                Monday: "Ledig",
+                Tuesday: "Ledig",
+                Wednesday: "Ledig",
+                Thursday: "Ledig",
+                Friday: "Ledig",
+                Saturday: "Ledig",
+                Sunday: "Ledig",
+            },
+            {
+                week: currentWeek,
+                time: "13:30 - 15:00",
+                Monday: "Ledig",
+                Tuesday: "Ledig",
+                Wednesday: "Ledig",
+                Thursday: "Ledig",
+                Friday: "Ledig",
+                Saturday: "Ledig",
+                Sunday: "Ledig",
+            },
+            {
+                week: currentWeek,
+                time: "15:00 - 16:30",
+                Monday: "Ledig",
+                Tuesday: "Ledig",
+                Wednesday: "Ledig",
+                Thursday: "Ledig",
+                Friday: "Ledig",
+                Saturday: "Ledig",
+                Sunday: "Ledig",
+            },
+            {
+                week: currentWeek,
+                time: "16:30 - 18:00",
+                Monday: "Ledig",
+                Tuesday: "Ledig",
+                Wednesday: "Ledig",
+                Thursday: "Ledig",
+                Friday: "Ledig",
+                Saturday: "Ledig",
+                Sunday: "Ledig",
+            },
+            {
+                week: currentWeek,
+                time: "18:00 - 19:30",
+                Monday: "Ledig",
+                Tuesday: "Ledig",
+                Wednesday: "Ledig",
+                Thursday: "Ledig",
+                Friday: "Ledig",
+                Saturday: "Ledig",
+                Sunday: "Ledig",
+            },
+            {
+                week: currentWeek,
+                time: "19:30 - 21:00",
+                Monday: "Ledig",
+                Tuesday: "Ledig",
+                Wednesday: "Ledig",
+                Thursday: "Ledig",
+                Friday: "Ledig",
+                Saturday: "Ledig",
+                Sunday: "Ledig",
+            },
+        ];
 
-        // Loop gennem timer fra 9 til 21
-        for (let hour = 9; hour <= 23; hour++) {
-            // Hvis timen er ulige, tilføj en række
-            if (hour % 2 !== 0) {
-                const startHour = Math.floor(startTime); // Få hele timen
-                const startMinute = (startTime % 1) * 60; // Få resten af divisionen i minutter
-
-                // Formater starttid som en streng
-                const startTimeString =
-                    startHour < 10
-                        ? `0${startHour}:${startMinute === 0 ? "00" : startMinute}`
-                        : `${startHour}:${startMinute === 0 ? "00" : startMinute}`;
-
-                // Beregn sluttid
-                const endHour = Math.floor(startTime + 1.5); // 1.5 timer senere
-                const endMinute = ((startTime + 1.5) % 1) * 60; // Få resten af divisionen i minutter
-
-                // Formater sluttid som en streng
-                const endTimeString =
-                    endHour < 10
-                        ? `0${endHour}:${endMinute === 0 ? "00" : endMinute}`
-                        : `${endHour}:${endMinute === 0 ? "00" : endMinute}`;
-
-                rows.push(
-                    <tr key={hour}>
-                        <td>{`${startTimeString} - ${endTimeString}`}</td>
-                        {/* Tilføj celler for hver dag i ugen baseret på columnCount */}
-                        {Array.from({ length: 7 }, (_, index) => (
-                            <td key={index}>Ledig</td>
-                        ))}
-                    </tr>
-                );
-                startTime += 1.5; // Increment the start time by 1.5 hours
-            }
-        }
-        return rows;
+        return weekData.map((row, index) => {
+            // console.log(row.week);
+            // console.log(index);
+            return (
+                <tr key={index}>
+                    <td>{row.time}</td>
+                    <td>{row.Monday}</td>
+                    <td>{row.Tuesday}</td>
+                    <td>{row.Wednesday}</td>
+                    <td>{row.Thursday}</td>
+                    <td>{row.Friday}</td>
+                    <td>{row.Saturday}</td>
+                    <td>{row.Sunday}</td>
+                </tr>
+            );
+        });
     };
 
     return (
         <>
-            <table className="table table-dark table-striped table-hover table-bordered  text-center">
+            <table className="table table-dark table-striped table-hover table-bordered text-center">
                 <thead>
                     <tr className="align-middle">
-                        <th>Time</th>
+                        <th>Tider for uge: {currentWeek}</th>
                         <th>Mandag</th>
                         <th>Tirsdag</th>
                         <th>Onsdag</th>
@@ -58,7 +131,7 @@ function ReservationTable() {
                     </tr>
                 </thead>
                 <tbody>
-                    {/* Generer rækker med tidsintervaller for hver kolonne */}
+                    {/* Generer rækker med tidsintervaller for den aktuelle uge */}
                     {generateTimeRows()}
                 </tbody>
             </table>
