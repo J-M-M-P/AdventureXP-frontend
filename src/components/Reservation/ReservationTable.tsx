@@ -50,7 +50,7 @@ function ReservationTable({ currentWeek, bookedTimes }: Props) {
             <table className="table table-dark table-striped table-hover table-bordered text-center">
                 <thead>
                     <tr className="align-middle">
-                        <th>Time</th>
+                        <th>Timer i uge {currentWeek}</th>
                         <th>Mandag</th>
                         <th>Tirsdag</th>
                         <th>Onsdag</th>
