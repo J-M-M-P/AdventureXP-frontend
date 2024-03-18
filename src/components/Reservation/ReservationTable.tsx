@@ -1,13 +1,15 @@
 interface Props {
     currentWeek: number;
     bookedTimes: { week: number; time: string; day: string }[];
+    onCellClick: (time: string, day: string) => void;
 }
 
-function ReservationTable({ currentWeek, bookedTimes }: Props) {
+function ReservationTable({ currentWeek, bookedTimes, onCellClick }: Props) {
     // Håndter klik på en celle i tabellen
     const handleCellClick = (time: string, day: string) => {
         // Her logikken til at vise en pop op eller modal lavet
-        alert(`Du klikkede på tiden ${time} om ${day}en i uge ${currentWeek}`);
+        // alert(`Du klikkede på tiden ${time} om ${day}en i uge ${currentWeek}`);
+        onCellClick(time, day);
     };
 
     // Funktion til at generere rækker med tidsintervaller for en given kolonne

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ReservationTable from "../components/Reservation/ReservationTable";
 import ReservationWeek from "../components/Reservation/ReservationWeek";
+import initialBookedTimes from "../testingLists/reservationer";
 
 declare global {
     interface Date {
@@ -10,6 +11,13 @@ declare global {
 
 function Reservation() {
     const [currentWeek, setCurrentWeek] = useState(new Date().getWeek());
+    const [bookedTimes, setBookedTimes] = useState<{ week: number; time: string; day: string }[]>(initialBookedTimes);
+
+    const handleReservation = (time: string, day: string) => {
+        // Tilføj logikken til at foretage reservationen, f.eks. ved at opdatere bookedTimes-tilstanden
+        const newBookedTimes = [...bookedTimes, { week: currentWeek, time, day }];
+        setBookedTimes(newBookedTimes);
+    };
 
     const handlePrevWeek = () => {
         setCurrentWeek(currentWeek - 1);
@@ -23,10 +31,7 @@ function Reservation() {
         <>
             <div className="container-sm justify-content-center">
                 <h1 className="mb-5 text-center">Reservation</h1>
-                <ReservationTable
-                    currentWeek={currentWeek}
-                    bookedTimes={[{ week: 14, time: "19:30 - 21:00", day: "Fredag" }]}
-                />
+                <ReservationTable currentWeek={currentWeek} bookedTimes={bookedTimes} onCellClick={handleReservation} />
             </div>
             <div className="container-sm justify-content-center">
                 <ReservationWeek currentWeek={currentWeek} onPrevWeek={handlePrevWeek} onNextWeek={handleNextWeek} />
