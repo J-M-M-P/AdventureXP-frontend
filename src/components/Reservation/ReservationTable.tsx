@@ -4,6 +4,12 @@ interface Props {
 }
 
 function ReservationTable({ currentWeek, bookedTimes }: Props) {
+    // Håndter klik på en celle i tabellen
+    const handleCellClick = (time: string, day: string) => {
+        // Her logikken til at vise en pop op eller modal lavet
+        alert(`Du klikkede på tiden ${time} om ${day}en i uge ${currentWeek}`);
+    };
+
     // Funktion til at generere rækker med tidsintervaller for en given kolonne
     const generateTimeRows = () => {
         const daysOfWeek = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"];
@@ -19,15 +25,21 @@ function ReservationTable({ currentWeek, bookedTimes }: Props) {
             { time: "19:30 - 21:00" },
         ];
 
-        return weekData.map((row, index) => {
-            const bookedDay = bookedTimes.find((booking) => booking.week === currentWeek && booking.time === row.time);
-
+        return weekData.map((row, rowIndex) => {
             return (
-                <tr key={index}>
+                <tr key={rowIndex}>
                     <td>{row.time}</td>
-                    {daysOfWeek.map((day, idx) => (
-                        <td key={idx}>{bookedDay && bookedDay.day === day ? "Booked" : "Ledig"}</td>
-                    ))}
+                    {daysOfWeek.map((day, dayIndex) => {
+                        const bookedTime = bookedTimes.find(
+                            (booking) =>
+                                booking.week === currentWeek && booking.time === row.time && booking.day === day
+                        );
+                        return (
+                            <td key={dayIndex} onClick={() => handleCellClick(row.time, day)}>
+                                {bookedTime ? "Booked" : "Ledig"}
+                            </td>
+                        );
+                    })}
                 </tr>
             );
         });
