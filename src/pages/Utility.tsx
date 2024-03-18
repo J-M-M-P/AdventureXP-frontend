@@ -1,10 +1,14 @@
+import ComponentOne from "../components/Equipment/ComponentOne";
+
 function Utility() {
     return (
         <>
             <div className="container">
                 <div className="row row-cols-2 ">
                     <div className="col px-0">
-                        <h5>1</h5>
+                        <h5>
+                            <ComponentOne />
+                        </h5>
                     </div>
                     <div className="col">
                         <div className="row row-cols-1 row-gap-5">
