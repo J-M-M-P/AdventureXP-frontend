@@ -14,7 +14,10 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation }: Props) {
 
     const handleReservation = () => {
         if (name !== "") {
-            const newBookedTimes = [...bookedTimes, { week: selectedWeek, time: selectedTime, day: selectedDay }];
+            const newBookedTimes = [
+                ...bookedTimes,
+                { week: selectedWeek, time: selectedTime, day: selectedDay, name: name },
+            ];
             onReservation(newBookedTimes);
             setName("");
         } else {
