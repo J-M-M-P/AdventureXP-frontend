@@ -1,50 +1,41 @@
-function ReservationTable() {
+interface Props {
+    currentWeek: number;
+    bookedTimes: { week: number; time: string; day: string }[];
+}
+
+function ReservationTable({ currentWeek, bookedTimes }: Props) {
     // Funktion til at generere rækker med tidsintervaller for en given kolonne
     const generateTimeRows = () => {
-        const rows = [];
-        let startTime = 9; // Initialize the start time to 9
+        const daysOfWeek = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"];
 
-        // Loop gennem timer fra 9 til 21
-        for (let hour = 9; hour <= 23; hour++) {
-            // Hvis timen er ulige, tilføj en række
-            if (hour % 2 !== 0) {
-                const startHour = Math.floor(startTime); // Få hele timen
-                const startMinute = (startTime % 1) * 60; // Få resten af divisionen i minutter
+        const weekData = [
+            { time: "09:00 - 10:30" },
+            { time: "10:30 - 12:00" },
+            { time: "12:00 - 13:30" },
+            { time: "13:30 - 15:00" },
+            { time: "15:00 - 16:30" },
+            { time: "16:30 - 18:00" },
+            { time: "18:00 - 19:30" },
+            { time: "19:30 - 21:00" },
+        ];
 
-                // Formater starttid som en streng
-                const startTimeString =
-                    startHour < 10
-                        ? `0${startHour}:${startMinute === 0 ? "00" : startMinute}`
-                        : `${startHour}:${startMinute === 0 ? "00" : startMinute}`;
+        return weekData.map((row, index) => {
+            const bookedDay = bookedTimes.find((booking) => booking.week === currentWeek && booking.time === row.time);
 
-                // Beregn sluttid
-                const endHour = Math.floor(startTime + 1.5); // 1.5 timer senere
-                const endMinute = ((startTime + 1.5) % 1) * 60; // Få resten af divisionen i minutter
-
-                // Formater sluttid som en streng
-                const endTimeString =
-                    endHour < 10
-                        ? `0${endHour}:${endMinute === 0 ? "00" : endMinute}`
-                        : `${endHour}:${endMinute === 0 ? "00" : endMinute}`;
-
-                rows.push(
-                    <tr key={hour}>
-                        <td>{`${startTimeString} - ${endTimeString}`}</td>
-                        {/* Tilføj celler for hver dag i ugen baseret på columnCount */}
-                        {Array.from({ length: 7 }, (_, index) => (
-                            <td key={index}>Ledig</td>
-                        ))}
-                    </tr>
-                );
-                startTime += 1.5; // Increment the start time by 1.5 hours
-            }
-        }
-        return rows;
+            return (
+                <tr key={index}>
+                    <td>{row.time}</td>
+                    {daysOfWeek.map((day, idx) => (
+                        <td key={idx}>{bookedDay && bookedDay.day === day ? "Booked" : "Ledig"}</td>
+                    ))}
+                </tr>
+            );
+        });
     };
 
     return (
         <>
-            <table className="table table-dark table-striped table-hover table-bordered  text-center">
+            <table className="table table-dark table-striped table-hover table-bordered text-center">
                 <thead>
                     <tr className="align-middle">
                         <th>Time</th>
@@ -58,7 +49,7 @@ function ReservationTable() {
                     </tr>
                 </thead>
                 <tbody>
-                    {/* Generer rækker med tidsintervaller for hver kolonne */}
+                    {/* Generer rækker med tidsintervaller for den aktuelle uge */}
                     {generateTimeRows()}
                 </tbody>
             </table>

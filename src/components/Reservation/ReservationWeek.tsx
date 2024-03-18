@@ -1,25 +1,15 @@
-import { useState } from "react";
 
-declare global {
-    interface Date {
-        getWeek(): number;
-    }
+
+interface Props {
+    currentWeek: number;
+    onPrevWeek: () => void;
+    onNextWeek: () => void;
 }
 
-function ReservationWeek() {
-    const [currentWeek, setCurrentWeek] = useState(new Date().getWeek());
-
-    const handlePrevWeek = () => {
-        setCurrentWeek(currentWeek - 1);
-    };
-
-    const handleNextWeek = () => {
-        setCurrentWeek(currentWeek + 1);
-    };
-
+function ReservationWeek({ currentWeek, onPrevWeek, onNextWeek }: Props) {
     return (
         <div className="row row-cols-3">
-            <button className="btn btn-outline-secondary" type="button" onClick={handlePrevWeek}>
+            <button className="btn btn-outline-secondary" type="button" onClick={onPrevWeek}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -35,7 +25,7 @@ function ReservationWeek() {
                 </svg>
             </button>
             <p className="text-center">{`Uge ${currentWeek}`}</p>
-            <button className="btn btn-outline-secondary" type="button" onClick={handleNextWeek}>
+            <button className="btn btn-outline-secondary" type="button" onClick={onNextWeek}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -54,13 +44,6 @@ function ReservationWeek() {
     );
 }
 
-// Extend the Date object with a method to get the week number
-Date.prototype.getWeek = function (): number {
-    const d: Date = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
-    const dayNum: number = d.getUTCDay() || 7;
-    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-    const yearStart: Date = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-    return Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
-};
+
 
 export default ReservationWeek;
