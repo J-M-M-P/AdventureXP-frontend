@@ -1,10 +1,27 @@
+import { useState } from "react";
+
 interface Props {
     currentWeek: number;
     bookedTimes: { week: number; time: string; day: string }[];
-    onCellClick: (time: string, day: string) => void;
+    onReservation: (newBookedTimes: { week: number; time: string; day: string }[]) => void;
 }
 
-function ReservationTable({ currentWeek, bookedTimes, onCellClick }: Props) {
+function ReservationTable({ currentWeek, bookedTimes, onReservation }: Props) {
+    const [selectedTime, setSelectedTime] = useState("");
+    const [selectedDay, setSelectedDay] = useState("");
+    const [selectedWeek, setSelectedWeek] = useState(0);
+    const [name, setName] = useState("");
+
+    const handleReservation = () => {
+        if (name !== "") {
+            const newBookedTimes = [...bookedTimes, { week: selectedWeek, time: selectedTime, day: selectedDay }];
+            onReservation(newBookedTimes);
+            setName("");
+        } else {
+            alert("Indtast venligst et navn.");
+        }
+    };
+
     // Funktion til at generere rækker med tidsintervaller for en given kolonne
     const generateTimeRows = () => {
         const daysOfWeek = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"];
@@ -30,7 +47,14 @@ function ReservationTable({ currentWeek, bookedTimes, onCellClick }: Props) {
                                 booking.week === currentWeek && booking.time === row.time && booking.day === day
                         );
                         return (
-                            <td key={dayIndex} onClick={() => onCellClick(row.time, day)}>
+                            <td
+                                key={dayIndex}
+                                onClick={() => {
+                                    setSelectedTime(row.time);
+                                    setSelectedDay(day);
+                                    setSelectedWeek(currentWeek);
+                                }}
+                            >
                                 {(bookedTime && (
                                     <button
                                         type="button"
@@ -79,6 +103,57 @@ function ReservationTable({ currentWeek, bookedTimes, onCellClick }: Props) {
                     {generateTimeRows()}
                 </tbody>
             </table>
+            <div
+                className="modal fade"
+                id="reservationModal"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabIndex={-1}
+                aria-labelledby="reservationModalLabel"
+                aria-hidden="true"
+            >
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="reservationModalLabel">
+                                Reservation
+                            </h1>
+                            <button
+                                type="button"
+                                className="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div className="modal-body">
+                            <p>Tid: {selectedTime}</p>
+                            <p>Dag: {selectedDay}</p>
+                            <p>Uge: {selectedWeek}</p>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Indtast dit navn"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                                Luk
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={handleReservation}
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            >
+                                Bekræft reservation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     );
 }

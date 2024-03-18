@@ -13,11 +13,10 @@ function Reservation() {
     const [currentWeek, setCurrentWeek] = useState(new Date().getWeek());
     const [bookedTimes, setBookedTimes] = useState<{ week: number; time: string; day: string }[]>(initialBookedTimes);
 
-    const handleReservation = (time: string, day: string) => {
-        // Tilføj logikken til at foretage reservationen, f.eks. ved at opdatere bookedTimes-tilstanden
-        const newBookedTimes = [...bookedTimes, { week: currentWeek, time, day }];
+    const handleReservation = (newBookedTimes: { week: number; time: string; day: string }[]) => {
         setBookedTimes(newBookedTimes);
-        console.log(`Reservation for ${day} kl. ${time} i uge ${currentWeek}`);
+        console.log("Reservation confirmed!");
+        console.log(newBookedTimes);
     };
 
     const handlePrevWeek = () => {
@@ -32,45 +31,14 @@ function Reservation() {
         <>
             <div className="container-sm justify-content-center">
                 <h1 className="mb-5 text-center">Reservation</h1>
-                <ReservationTable currentWeek={currentWeek} bookedTimes={bookedTimes} onCellClick={handleReservation} />
+                <ReservationTable
+                    currentWeek={currentWeek}
+                    bookedTimes={bookedTimes}
+                    onReservation={handleReservation}
+                />
             </div>
             <div className="container-sm justify-content-center">
                 <ReservationWeek currentWeek={currentWeek} onPrevWeek={handlePrevWeek} onNextWeek={handleNextWeek} />
-            </div>
-
-            <div
-                className="modal fade"
-                id="reservationModal"
-                data-bs-backdrop="static"
-                data-bs-keyboard="false"
-                tabIndex={-1}
-                aria-labelledby="reservationModalLabel"
-                aria-hidden="true"
-            >
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="reservationModalLabel">
-                                Modal title
-                            </h1>
-                            <button
-                                type="button"
-                                className="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                            ></button>
-                        </div>
-                        <div className="modal-body">...</div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
-                                Close
-                            </button>
-                            <button type="button" className="btn btn-primary">
-                                Understood
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </>
     );
