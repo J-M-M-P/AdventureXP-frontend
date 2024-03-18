@@ -1,4 +1,4 @@
-import { Equipment } from "../pages/Utility";
+import {Equipment} from "../pages/UtilityComponent3";
 
 const endpoint = "http://127.0.0.1:8080";
 
