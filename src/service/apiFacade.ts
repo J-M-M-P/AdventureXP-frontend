@@ -27,6 +27,7 @@ async function updateEquipmentInDatabase(id: number, updatedEquipment: Equipment
         if (!response.ok) {
             throw new Error('Failed to update equipment');
         }
+        console.log(response);
 
         const updatedEquipmentData = await response.json();
         return updatedEquipmentData;
