@@ -31,7 +31,26 @@ function ReservationTable({ currentWeek, bookedTimes, onCellClick }: Props) {
                         );
                         return (
                             <td key={dayIndex} onClick={() => onCellClick(row.time, day)}>
-                                {bookedTime ? "Booked" : "Ledig"}
+                                {(bookedTime && (
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-light"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#reservationModal"
+                                        disabled
+                                    >
+                                        {bookedTime ? "Booked" : "Ledig"}
+                                    </button>
+                                )) || (
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-light"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#reservationModal"
+                                    >
+                                        {bookedTime ? "Booked" : "Ledig"}
+                                    </button>
+                                )}
                             </td>
                         );
                     })}
@@ -42,7 +61,7 @@ function ReservationTable({ currentWeek, bookedTimes, onCellClick }: Props) {
 
     return (
         <>
-            <table className="table table-dark table-striped table-hover table-bordered text-center">
+            <table className="table table-dark table-striped table-bordered text-center">
                 <thead>
                     <tr className="align-middle">
                         <th>Timer i uge {currentWeek}</th>
