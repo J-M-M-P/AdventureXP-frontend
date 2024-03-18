@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 
 export default function ComponentOne() {
     // State til at gemme de hentede data
-    const [options, setOptions] = useState([]);
+    const [activity, setActivity] = useState([]);
+
     const [selectedOption, setSelectedOption] = useState(null); // Til at gemme det valgte objekt
 
     // Funktion til at hente data fra backend
@@ -10,11 +11,10 @@ export default function ComponentOne() {
         try {
             // Hent data fra backend (erstat URL'en med din backend-endpoint)
             const response = await fetch("http://localhost:8080/api/equipment");
-            const data = await response.json();
-            console.log(data);
+            const equipmentData = await response.json();
 
             // Opdater state med de hentede data
-            setOptions(data);
+            setActivity(equipmentData);
         } catch (error) {
             console.error("Fejl ved hentning af data:", error);
         }
@@ -26,26 +26,24 @@ export default function ComponentOne() {
     }, []);
 
     // Funktion til at håndtere ændringen i dropdown'en
-    const handleDropdownChange = (event) => {
+    const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedIndex = event.target.selectedIndex;
-        // console.log("selectedIndex", selectedIndex);
-        // console.log("options", selectedOption);
-        setSelectedOption(options[selectedIndex - 1]); // -1 fordi den første option er en placeholder
+        setSelectedOption(activity[selectedIndex - 1]); // -1 fordi den første option er en placeholder
     };
 
     return (
         <>
-            <p>Component 1</p>
+            <p>Aktivitetsudstyr</p>
             <select className="form-select" aria-label="Default select example" onChange={handleDropdownChange}>
-                <option value="">Vælg en mulighed</option>
+                <option value="">Vælg en aktivitet</option>
                 {/* Brug map til at oprette options fra dataen */}
-                {options.map(
+                {activity.map(
                     (
-                        option: { value: string; label: string; activity: object; activityName: string },
+                        option: { value: string; label: string; activityName: string; },
                         index: number
                     ) => (
                         <option key={index} value={option.value}>
-                            {option.activity.activityName}
+                            {option.activityName}
                         </option>
                     )
                 )}
