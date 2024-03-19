@@ -26,7 +26,7 @@ let reservations: Array<Reservation> = [];
 
 // ----- ACTIVITIES ----- \\
 async function getActivities() {
-    const response = await fetch(`${endpoint}/api/activities`).then(handleHttpErrors);
+    const response = await fetch(`${endpoint}/api/activities`);
     return response.json();
 }
 
@@ -53,7 +53,7 @@ async function addReservation(reservation: Reservation){
 
 // ----- EQUIPMENT ----- \\
 async function getEquipment() {
-    const response = await fetch(`${endpoint}/api/equipment`).then(handleHttpErrors);
+    const response = await fetch(`${endpoint}/api/equipment`);
     return response.json();
 }
 
