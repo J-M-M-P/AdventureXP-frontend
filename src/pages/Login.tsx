@@ -6,8 +6,8 @@ export default function login() {
                 <form>
                     <div className="mb-3">
                         <input type="text" className="form-control mb-2" id="loginUsername" placeholder="Username..." />
-                        <input type="text" className="form-control mb-2" id="loginPassword" placeholder="Password..." />
-                        <button type="button" className="btn btn-dark w-100">
+                        <input type="password" className="form-control mb-2" id="loginPassword" placeholder="Password..." />
+                        <button type="submit" className="btn btn-dark w-100 mb-2">
                             Login
                         </button>
                     </div>
