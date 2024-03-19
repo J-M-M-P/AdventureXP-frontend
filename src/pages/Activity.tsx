@@ -1,7 +1,22 @@
-import activityCards from "../testingLists/activities";
+import { useState, useEffect } from "react";
 import ActivityCard from "../components/Activity/ActivityCard";
+import { getActivities } from "../service/apiFacade";
 
 export default function Activity() {
+    const [activityCards, setActivityCards] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getActivities();
+                setActivityCards(data);
+            } catch (error) {
+                console.error("Error fetching activities:", error);
+            }
+        };
+        fetchData();
+    }, []);
+
     return (
         <>
             <h2 className="text-center">Aktivitet</h2>
@@ -11,7 +26,7 @@ export default function Activity() {
                         <ActivityCard
                             key={index}
                             image={card.image}
-                            activityName={card.activityName}
+                            activityName={card.activityName} // "title" i stedet for "activityName"
                             description={card.description}
                             ageLimit={card.ageLimit}
                             participantLimit={card.participantLimit}
