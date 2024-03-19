@@ -29,9 +29,10 @@ export default function Home() {
             <hr />
             <div className="container-fluid mt-5 pt-3">
                 <div className="row row-cols-3 row-gap-5 column-gap-3 justify-content-center">
-                    {activityCards.map((card, index) => (
+                    {activityCards.map((card) => (
                         <ActivityCardMini
-                            key={index}
+                            key={card.id}
+                            id={card.id}
                             imageSrc={card.imageSrc}
                             title={card.title}
                             description={card.description}

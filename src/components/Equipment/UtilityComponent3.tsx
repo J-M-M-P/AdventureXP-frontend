@@ -2,11 +2,9 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, B
 import React, { useState, useEffect } from "react";
 import { getActivities, getEquipment, updateEquipmentInDatabase } from "../../service/apiFacade";
 import { EquipmentDto } from "./EquipmentDto";
+import { Activity } from "../../service/apiFacade";
 
-interface Activity {
-    activityName: string;
-    // Add other properties as needed
-}
+
 
 export interface Equipment {
     id: number;
