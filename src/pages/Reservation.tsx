@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ReservationTable from "../components/Reservation/ReservationTable";
 import ReservationWeek from "../components/Reservation/ReservationWeek";
-import { getReservations, addReservation } from "../service/apiFacade";
+import { getReservations } from "../service/apiFacade";
 
 declare global {
     interface Date {

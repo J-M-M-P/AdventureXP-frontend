@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { addReservation } from "../../service/apiFacade";
 
 interface Props {
     currentWeek: number;
@@ -16,20 +17,52 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation }: Props) {
 
     const handleReservation = () => {
         if (name !== "") {
-            const newBookedTimes = [
-                ...bookedTimes,
-                {
-                    reservationWeek: selectedWeek,
-                    reservationTime: selectedTime,
-                    reservationDay: selectedDay,
-                    name: name,
-                },
-            ];
-            onReservation(newBookedTimes);
-            setName("");
+            const newReservation = {
+                reservationWeek: selectedWeek,
+                reservationTime: selectedTime,
+                reservationDay: selectedDay,
+                // name: name,
+                bookedStatus: true,
+            };
+            // Tilføj reservation til databasen
+            addReservation(newReservation)
+                .then(() => {
+                    // Opdater frontend, hvis reservationen blev tilføjet succesfuldt
+                    const newBookedTimes = [
+                        ...bookedTimes,
+                        {
+                            reservationWeek: selectedWeek,
+                            reservationTime: selectedTime,
+                            reservationDay: selectedDay,
+                            name: name,
+                        },
+                    ];
+                    onReservation(newBookedTimes);
+                    setName("");
+                })
+                .catch((error) => {
+                    console.error("Error adding reservation:", error);
+                    alert("Der skete en fejl under reservationen. Prøv venligst igen.");
+                });
         } else {
             alert("Indtast venligst et navn.");
         }
+
+        // if (name !== "") {
+        //     const newBookedTimes = [
+        //         ...bookedTimes,
+        //         {
+        //             reservationWeek: selectedWeek,
+        //             reservationTime: selectedTime,
+        //             reservationDay: selectedDay,
+        //             name: name,
+        //         },
+        //     ];
+        //     onReservation(newBookedTimes);
+        //     setName("");
+        // } else {
+        //     alert("Indtast venligst et navn.");
+        // }
     };
 
     // Funktion til at generere rækker med tidsintervaller for en given kolonne
