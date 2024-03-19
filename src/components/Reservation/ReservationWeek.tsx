@@ -1,5 +1,3 @@
-
-
 interface Props {
     currentWeek: number;
     onPrevWeek: () => void;
@@ -43,7 +41,5 @@ function ReservationWeek({ currentWeek, onPrevWeek, onNextWeek }: Props) {
         </div>
     );
 }
-
-
 
 export default ReservationWeek;

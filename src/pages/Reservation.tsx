@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ReservationTable from "../components/Reservation/ReservationTable";
 import ReservationWeek from "../components/Reservation/ReservationWeek";
+import initialBookedTimes from "../testingLists/reservationer";
 import { Reservation as APIReservation, getReservations, getReservationById, addReservation } from "../service/apiFacade";
 
 declare global {
@@ -11,6 +12,13 @@ declare global {
 
 function Reservation() {
     const [currentWeek, setCurrentWeek] = useState(new Date().getWeek());
+    const [bookedTimes, setBookedTimes] = useState<{ week: number; time: string; day: string }[]>(initialBookedTimes);
+
+    const handleReservation = (newBookedTimes: { week: number; time: string; day: string }[]) => {
+        setBookedTimes(newBookedTimes);
+        console.log("Reservation confirmed!");
+        console.log(newBookedTimes);
+    };
 
     const handlePrevWeek = () => {
         setCurrentWeek(currentWeek - 1);
@@ -33,7 +41,8 @@ function Reservation() {
                 <h1 className="mb-5 text-center">Reservation</h1>
                 <ReservationTable
                     currentWeek={currentWeek}
-                    bookedTimes={[{ week: 14, time: "19:30 - 21:00", day: "Fredag" }]}
+                    bookedTimes={bookedTimes}
+                    onReservation={handleReservation}
                 />
             </div>
             <div className="container-sm justify-content-center">
