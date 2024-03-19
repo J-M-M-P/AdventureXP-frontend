@@ -2,8 +2,10 @@ import { useState } from "react";
 
 interface Props {
     currentWeek: number;
-    bookedTimes: { week: number; time: string; day: string }[];
-    onReservation: (newBookedTimes: { week: number; time: string; day: string }[]) => void;
+    bookedTimes: { reservationWeek: number; reservationTime: string; reservationDay: string }[];
+    onReservation: (
+        newBookedTimes: { reservationWeek: number; reservationTime: string; reservationDay: string }[]
+    ) => void;
 }
 
 function ReservationTable({ currentWeek, bookedTimes, onReservation }: Props) {
@@ -16,7 +18,12 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation }: Props) {
         if (name !== "") {
             const newBookedTimes = [
                 ...bookedTimes,
-                { week: selectedWeek, time: selectedTime, day: selectedDay, name: name },
+                {
+                    reservationWeek: selectedWeek,
+                    reservationTime: selectedTime,
+                    reservationDay: selectedDay,
+                    name: name,
+                },
             ];
             onReservation(newBookedTimes);
             setName("");
@@ -47,7 +54,9 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation }: Props) {
                     {daysOfWeek.map((day, dayIndex) => {
                         const bookedTime = bookedTimes.find(
                             (booking) =>
-                                booking.week === currentWeek && booking.time === row.time && booking.day === day
+                                booking.reservationWeek === currentWeek &&
+                                booking.reservationTime === row.time &&
+                                booking.reservationDay === day
                         );
                         return (
                             <td

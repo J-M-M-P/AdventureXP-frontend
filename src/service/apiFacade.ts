@@ -16,7 +16,9 @@ interface Activity {
 
 interface Reservation {
     id?: number | null;
-    dateTime: string;
+    reservationDay: string;
+    reservationTime: string;
+    reservationWeek: number;
     bookedStatus: boolean;
     companyId?: number | null;
     customerId?: number | null;
@@ -38,13 +40,13 @@ async function getReservations() {
     return reservations;
 }
 
-async function getReservationById(id: number){
+async function getReservationById(id: number) {
     const response = await fetch(`${endpoint}/api/reservations/${id}`).then(handleHttpErrors);
     console.log(response);
     return response.json();
 }
 
-async function addReservation(reservation: Reservation){
+async function addReservation(reservation: Reservation) {
     const options = makeOptions("POST", reservation);
     const response = await fetch(`${endpoint}/api/reservations`, options).then(handleHttpErrors);
     console.log(response);
