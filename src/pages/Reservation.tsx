@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReservationTable from "../components/Reservation/ReservationTable";
 import ReservationWeek from "../components/Reservation/ReservationWeek";
-import initialBookedTimes from "../testingLists/reservationer";
-import { Reservation as APIReservation, getReservations, getReservationById, addReservation } from "../service/apiFacade";
+import { getReservations } from "../service/apiFacade";
 
 declare global {
     interface Date {
@@ -12,9 +11,26 @@ declare global {
 
 function Reservation() {
     const [currentWeek, setCurrentWeek] = useState(new Date().getWeek());
-    const [bookedTimes, setBookedTimes] = useState<{ week: number; time: string; day: string }[]>(initialBookedTimes);
+    const [bookedTimes, setBookedTimes] = useState<
+        { reservationWeek: number; reservationTime: string; reservationDay: string }[]
+    >([]);
 
-    const handleReservation = (newBookedTimes: { week: number; time: string; day: string }[]) => {
+    useEffect(() => {
+        // Call getReservations() when the component mounts
+        async function fetchReservations() {
+            try {
+                const reservations = await getReservations();
+                setBookedTimes(reservations);
+            } catch (error) {
+                console.error("Error fetching reservations:", error);
+            }
+        }
+        fetchReservations();
+    }, []); // Empty dependency array ensures it only runs once on mount
+
+    const handleReservation = (
+        newBookedTimes: { reservationWeek: number; reservationTime: string; reservationDay: string }[]
+    ) => {
         setBookedTimes(newBookedTimes);
         console.log("Reservation confirmed!");
         console.log(newBookedTimes);
@@ -27,13 +43,6 @@ function Reservation() {
     const handleNextWeek = () => {
         setCurrentWeek(currentWeek + 1);
     };
-
-    //logging crud operations
-    // console.log(getReservations());
-    // console.log(getReservationById(2));
-    console.log(addReservation({ dateTime: "2025-06-30T13:30:00", bookedStatus: true, companyId: 2, customerId: null}));
-    console.log(addReservation({ dateTime: "2025-07-30T16:30:00", bookedStatus: true, companyId: null, customerId: 1}));
-    console.log(addReservation({ dateTime: "2025-08-30T19:30:00", bookedStatus: false, companyId: null, customerId: null}));
 
     return (
         <>

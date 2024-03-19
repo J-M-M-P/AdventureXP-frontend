@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 interface ActivityCardProps {
+    id: number;
     image: string;
     activityName: string;
     description: string;
@@ -9,6 +10,7 @@ interface ActivityCardProps {
 }
 
 export default function ActivityCard({
+    id,
     image,
     activityName,
     description,
@@ -29,7 +31,7 @@ export default function ActivityCard({
 
     return (
         <>
-            <div className="card">
+            <div id={`activity-card-${id}`}className="card">
                 <div className="row">
                     <div className="col-md-4">
                         <img src={image} className="img-fluid"></img>
