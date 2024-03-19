@@ -2,6 +2,7 @@ import { useState } from "react";
 import ReservationTable from "../components/Reservation/ReservationTable";
 import ReservationWeek from "../components/Reservation/ReservationWeek";
 import initialBookedTimes from "../testingLists/reservationer";
+import { Reservation as APIReservation, getReservations, getReservationById, addReservation } from "../service/apiFacade";
 
 declare global {
     interface Date {
@@ -26,6 +27,13 @@ function Reservation() {
     const handleNextWeek = () => {
         setCurrentWeek(currentWeek + 1);
     };
+
+    //logging crud operations
+    // console.log(getReservations());
+    // console.log(getReservationById(2));
+    console.log(addReservation({ dateTime: "2025-06-30T13:30:00", bookedStatus: true, companyId: 2, customerId: null}));
+    console.log(addReservation({ dateTime: "2025-07-30T16:30:00", bookedStatus: true, companyId: null, customerId: 1}));
+    console.log(addReservation({ dateTime: "2025-08-30T19:30:00", bookedStatus: false, companyId: null, customerId: null}));
 
     return (
         <>

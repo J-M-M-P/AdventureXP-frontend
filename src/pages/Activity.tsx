@@ -10,8 +10,8 @@ export default function Activity() {
                     {activityCards.map((card, index) => (
                         <ActivityCard
                             key={index}
-                            imageSrc={card.imageSrc}
-                            title={card.title}
+                            image={card.image}
+                            activityName={card.activityName}
                             description={card.description}
                             ageLimit={card.ageLimit}
                             participantLimit={card.participantLimit}

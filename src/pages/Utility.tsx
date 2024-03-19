@@ -1,5 +1,5 @@
 import UtilityComponent3 from "../pages/UtilityComponent3";
-
+import UtilityComponent2 from "../pages/UtilityComponent2";
 
 import ComponentOne from "../components/Equipment/ComponentOne";
 
@@ -17,7 +17,7 @@ function Utility() {
                     <div className="col">
                         <div className="row row-cols-1 row-gap-5">
                             <div className="col px-0">
-                                <h5>2</h5>
+                            {<UtilityComponent2 />}
                             </div>
                             <div className="col px-0">
                                 {<UtilityComponent3 />}
