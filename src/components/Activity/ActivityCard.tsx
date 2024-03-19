@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 
-
 interface ActivityCardProps {
     image: string;
     activityName: string;
@@ -31,14 +30,20 @@ export default function ActivityCard({
     return (
         <>
             <div className="card">
-                <h3>{image}</h3>
-                <h3>{activityName}</h3>
-                <h3>{description}</h3>
-                <h3>Aldersgrænse: {ageLimit} år</h3>
-                <h3>Max antal deltagere: {participantLimit}</h3>
-                <p>Reservation</p>
-                <button onClick={handleCompanyClick}>Erhverv</button>
-                <button onClick={handlePrivateClick}>Privat</button>
+                <div className="row">
+                    <div className="col-md-4">
+                        <img src={image} className="img-fluid"></img>
+                    </div>
+                    <div className="col-md-8">
+                        <h3>{activityName}</h3>
+                        <h3>{description}</h3>
+                        <h3>Aldersgrænse: {ageLimit} år</h3>
+                        <h3>Max antal deltagere: {participantLimit}</h3>
+                        <p>Reservation</p>
+                        <button onClick={handleCompanyClick}>Erhverv</button>
+                        <button onClick={handlePrivateClick}>Privat</button>
+                    </div>
+                </div>
             </div>
         </>
     );
