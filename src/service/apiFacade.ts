@@ -1,4 +1,4 @@
-import { Equipment } from "../pages/UtilityComponent3";
+import { Equipment } from "../components/Equipment/UtilityComponent3";
 import { makeOptions, handleHttpErrors } from "./fetchUtils";
 
 const endpoint = "http://127.0.0.1:8080";

@@ -1,6 +1,6 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import { getActivities, getEquipment, updateEquipmentInDatabase } from "../service/apiFacade";
+import { getActivities, getEquipment, updateEquipmentInDatabase } from "../../service/apiFacade";
 import { EquipmentDto } from "./EquipmentDto";
 
 interface Activity {
@@ -72,10 +72,10 @@ export default function UtilityComponent3() {
           return;
         }
       
-        const updatedDefectiveUnits = selectedEquipment.defectiveUnits - parseInt(quantity);
+        const updatedDefectiveUnits = selectedEquipment.defectiveUnits + parseInt(quantity);
         
-        if (updatedDefectiveUnits < 0) {
-          showErrorDialog(`Antal er højere end ødelagte antal ${selectedEquipment.name}`);
+        if (updatedDefectiveUnits > selectedEquipment.totalUnits) {
+          showErrorDialog(`Antal er højere end samlede antal ${selectedEquipment.name}`);
           return;
         }
       
@@ -88,6 +88,8 @@ export default function UtilityComponent3() {
           activityId: selectedEquipment.activityId,
           activityName: selectedEquipment.activityName,
         };
+
+        console.log('Updated equipment:', updatedEquipment);
         
         try {
           const updatedEquipmentData = await updateEquipmentInDatabase(selectedEquipment.id, updatedEquipment);
@@ -104,7 +106,7 @@ export default function UtilityComponent3() {
             <table className="table">
                 <thead>
                     <tr>
-                        <th colSpan={3}>Rapporter Serviceret Udstyr</th>
+                        <th colSpan={3}>Rapporter Ødelagt Udstyr</th>
                     </tr>
                 </thead>
                 <tbody>

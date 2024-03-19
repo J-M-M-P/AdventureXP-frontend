@@ -1,5 +1,5 @@
-import UtilityComponent3 from "../pages/UtilityComponent3";
-import UtilityComponent2 from "../pages/UtilityComponent2";
+import UtilityComponent3 from "../components/Equipment/UtilityComponent3";
+import UtilityComponent2 from "../components/Equipment/UtilityComponent2";
 
 import ComponentOne from "../components/Equipment/ComponentOne";
 
