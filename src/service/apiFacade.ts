@@ -50,7 +50,7 @@ async function addReservation(reservation: Reservation) {
     const options = makeOptions("POST", reservation);
     const response = await fetch(`${endpoint}/api/reservations`, options).then(handleHttpErrors);
     console.log(response);
-    return response.json();
+    return response;
 }
 
 // ----- EQUIPMENT ----- \\
