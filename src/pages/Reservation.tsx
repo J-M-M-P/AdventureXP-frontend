@@ -20,6 +20,31 @@ function Reservation() {
         { reservationWeek: number; reservationTime: string; reservationDay: string }[]
     >([]);
 
+    // ====================== \\
+    // ===== ACTIVITIES ===== \\
+    // ====================== \\
+
+    // Fetch activities from the database when the component mounts
+    useEffect(() => {
+        async function fetchActivities() {
+            try {
+                const data = await getActivities();
+                setActivities(data);
+            } catch (error) {
+                console.error("Error fetching activities:", error);
+            }
+        }
+        fetchActivities();
+    }, []);
+
+    const handleActivityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        console.log(event.target.value);
+    };
+
+    // ======================= \\
+    // ===== RESERVATION ===== \\
+    // ======================= \\
+
     // Fetch reservations from the database when the component mounts
     useEffect(() => {
         // Call getReservations() when the component mounts
@@ -34,19 +59,6 @@ function Reservation() {
         fetchReservations();
     }, []);
 
-    // Fetch activities from the database when the component mounts
-    useEffect(() => {
-        async function fetchActivities() {
-            try {
-                const data = await getActivities();
-                setActivities(data);
-            } catch (error) {
-                console.error("Error fetching activities:", error);
-            }
-        }
-        fetchActivities();
-    });
-
     const handleReservation = (
         newBookedTimes: { reservationWeek: number; reservationTime: string; reservationDay: string }[]
     ) => {
@@ -54,6 +66,10 @@ function Reservation() {
         console.log("Reservation confirmed!");
         console.log(newBookedTimes);
     };
+
+    // =========================== \\
+    // ===== WEEK NAVIGATION ===== \\
+    // =========================== \\
 
     const handlePrevWeek = () => {
         setCurrentWeek(currentWeek - 1);
@@ -70,11 +86,12 @@ function Reservation() {
                 <select
                     name="changeActivity"
                     id="changeActivity"
+                    onChange={handleActivityChange}
                     className="form-select mx-auto mb-5"
                     aria-label="Default select example"
                     style={{ width: "150px" }}
                 >
-                    <option selected>Vælg aktivitet</option>
+                    <option defaultChecked>Vælg aktivitet</option>
                     {activities.map((activity: ActivityProps) => (
                         <option key={activity.activityName} value={activity.activityName}>
                             {activity.activityName}

@@ -16,6 +16,7 @@ interface Activity {
 
 interface Reservation {
     id?: number | null;
+    activityId: number;
     reservationDay: string;
     reservationTime: string;
     reservationWeek: number;
@@ -29,7 +30,7 @@ let reservations: Array<Reservation> = [];
 // ----- ACTIVITIES ----- \\
 async function getActivities() {
     const response = await fetch(`${endpoint}/api/activities`).then(handleHttpErrors);
-    return response/*.json()*/;
+    return response /*.json()*/;
 }
 
 // ----- RESERVATIONS ----- \\
