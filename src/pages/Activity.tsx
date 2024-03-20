@@ -2,6 +2,14 @@ import { useState, useEffect } from "react";
 import ActivityCard from "../components/Activity/ActivityCard";
 import { getActivities } from "../service/apiFacade";
 
+interface ActivityCardProps {
+    image: string;
+    activityName: string;
+    description: string;
+    ageLimit: number;
+    participantLimit: number;
+}
+
 export default function Activity() {
     const [activityCards, setActivityCards] = useState([]);
 
@@ -22,7 +30,7 @@ export default function Activity() {
             <h2 className="text-center">Aktivitet</h2>
             <div className="container-fluid">
                 <div className="row row-cols-2 row-gap-5 column-gap-1 justify-content-center">
-                    {activityCards.map((card, index) => (
+                    {activityCards.map((card: ActivityCardProps, index) => (
                         <ActivityCard
                             key={index}
                             image={card.image}
