@@ -17,6 +17,7 @@ interface ActivityProps {
 function Reservation() {
     const [currentWeek, setCurrentWeek] = useState(new Date().getWeek());
     const [activities, setActivities] = useState([]);
+    const [activeActivity, setActiveActivity] = useState("");
     const [activityId, setActivityId] = useState<number | undefined>(undefined);
     const [bookedTimes, setBookedTimes] = useState<
         { reservationWeek: number; reservationTime: string; reservationDay: string; activityId: number }[]
@@ -40,7 +41,12 @@ function Reservation() {
     }, []);
 
     const handleActivityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        if (event.target.value === "Vælg aktivitet") {
+            setActiveActivity("");
+            setActivityId(undefined);
+        }
         const selectedActivity = event.target.value;
+        setActiveActivity(selectedActivity);
         activities.find((item: Activity) => {
             if (item.activityName === selectedActivity) {
                 setActivityId(item.id || undefined);
@@ -115,6 +121,7 @@ function Reservation() {
                     bookedTimes={bookedTimes}
                     onReservation={handleReservation}
                     activityId={activityId}
+                    activeActivity={activeActivity}
                 />
             </div>
             <div className="container-sm justify-content-center">

@@ -13,9 +13,10 @@ interface Props {
         }[]
     ) => void;
     activityId?: number;
+    activeActivity: string;
 }
 
-function ReservationTable({ currentWeek, bookedTimes, onReservation, activityId }: Props) {
+function ReservationTable({ currentWeek, bookedTimes, onReservation, activityId, activeActivity }: Props) {
     const [selectedTime, setSelectedTime] = useState("");
     const [selectedDay, setSelectedDay] = useState("");
     const [selectedWeek, setSelectedWeek] = useState(0);
@@ -126,7 +127,10 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation, activityId 
             <table className="table table-dark table-striped table-bordered text-center">
                 <thead>
                     <tr className="align-middle">
-                        <th>Timer i uge {currentWeek}</th>
+                        <th>
+                            Tider i uge {currentWeek} <br />
+                            For {activeActivity}
+                        </th>
                         <th>Mandag</th>
                         <th>Tirsdag</th>
                         <th>Onsdag</th>
