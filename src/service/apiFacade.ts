@@ -28,8 +28,8 @@ let reservations: Array<Reservation> = [];
 
 // ----- ACTIVITIES ----- \\
 async function getActivities() {
-    const response = await fetch(`${endpoint}/api/activities`);
-    return response.json();
+    const response = await fetch(`${endpoint}/api/activities`).then(handleHttpErrors);
+    return response/*.json()*/;
 }
 
 // ----- RESERVATIONS ----- \\
