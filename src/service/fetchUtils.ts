@@ -4,8 +4,8 @@
  * @returns //Object with method and headers
  */
 
-// export function makeOptions(method: string, body: object | null, addToken?: boolean | undefined): RequestInit {
-export function makeOptions(method: string, body: object | null): RequestInit {
+export function makeOptions(method: string, body: object | null, addToken?: boolean | undefined): RequestInit {
+// export function makeOptions(method: string, body: object | null): RequestInit {
     const opts: RequestInit = {
         method: method,
         headers: {
@@ -16,10 +16,10 @@ export function makeOptions(method: string, body: object | null): RequestInit {
     if (body) {
         opts.body = JSON.stringify(body);
     }
-//   if (addToken) {
-//         //@ts-ignore
-//         opts.headers["Authorization"] = "Bearer " + localStorage.getItem("token");
-//     }
+  if (addToken) {
+        //@ts-ignore
+        opts.headers["Authorization"] = "Bearer " + localStorage.getItem("token");
+    }
     return opts;
 }
 

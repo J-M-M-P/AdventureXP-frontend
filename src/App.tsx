@@ -4,7 +4,9 @@ import Layout from "./components/Layout";
 import Activity from "./pages/Activity";
 import Utility from "./pages/Utility";
 import Reservation from "./pages/Reservation";
-import Login from "./pages/Login";
+import Login from "./security/Login";
+import Logout from "./security/Logout";
+import RequireAuth from "./security/RequireAuth";
 
 function App() {
     return (
@@ -15,8 +17,16 @@ function App() {
                     <Route path="/activity" element={<Activity />} />
                     <Route path="/activity/:id" element={<Activity />} />
                     <Route path="/reservation" element={<Reservation />} />
-                    <Route path="/utility" element={<Utility />} />
-                    <Route path="*" element={<Login />} />
+                    <Route
+                        path="/utility"
+                        element={
+                            <RequireAuth roles={["ADMIN", "USER"]}>
+                                <Utility />
+                            </RequireAuth>
+                        }
+                    />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/logout" element={<Logout />} />
                 </Routes>
             </Layout>
         </>
