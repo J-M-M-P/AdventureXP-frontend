@@ -1,5 +1,9 @@
+// Activity.tsx
+
 import { useState, useEffect } from "react";
 import ActivityCard from "../components/Activity/ActivityCard";
+import { useParams } from "react-router-dom";
+//import { useEffect } from "react";
 import { getActivities } from "../service/apiFacade";
 
 interface ActivityCardProps {
@@ -11,6 +15,17 @@ interface ActivityCardProps {
 }
 
 export default function Activity() {
+    let { id } = useParams();
+
+    useEffect(() => {
+        if (id) {
+            const element = document.getElementById(`activity-card-${id}`);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }, [id]);
+
     const [activityCards, setActivityCards] = useState([]);
 
     useEffect(() => {
@@ -30,9 +45,10 @@ export default function Activity() {
             <h2 className="text-center">Aktivitet</h2>
             <div className="container-fluid">
                 <div className="row row-cols-2 row-gap-5 column-gap-1 justify-content-center">
-                    {activityCards.map((card: ActivityCardProps, index) => (
+                    {activityCards.map((card: ActivityCardProps) => (
                         <ActivityCard
-                            key={index}
+                            key={card.id}
+                            id={card.id}
                             image={card.image}
                             activityName={card.activityName} // "title" i stedet for "activityName"
                             description={card.description}

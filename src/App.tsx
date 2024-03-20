@@ -4,6 +4,7 @@ import Layout from "./components/Layout";
 import Activity from "./pages/Activity";
 import Utility from "./pages/Utility";
 import Reservation from "./pages/Reservation";
+import Login from "./pages/Login";
 
 function App() {
     return (
@@ -12,9 +13,10 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/activity" element={<Activity />} />
+                    <Route path="/activity/:id" element={<Activity />} />
                     <Route path="/reservation" element={<Reservation />} />
                     <Route path="/utility" element={<Utility />} />
-                    <Route path="*" element={<h1>Not Found</h1>} />
+                    <Route path="*" element={<Login />} />
                 </Routes>
             </Layout>
         </>
