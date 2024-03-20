@@ -77,13 +77,14 @@ export default function UtilityComponent3() {
         }
       
         const updatedEquipment: EquipmentDto = {
-          id: selectedEquipment.id,
-          name: selectedEquipment.name,
-          status: selectedEquipment.status,
-          totalUnits: selectedEquipment.totalUnits,
-          defectiveUnits: updatedDefectiveUnits,
-          activityId: selectedEquipment.activityId,
-          activityName: selectedEquipment.activityName,
+            id: selectedEquipment.id,
+            name: selectedEquipment.name,
+            status: selectedEquipment.status,
+            totalUnits: selectedEquipment.totalUnits,
+            defectiveUnits: updatedDefectiveUnits,
+            activityId: selectedEquipment.activityId,
+            activityName: selectedEquipment.activityName,
+            activity: { id: selectedEquipment.activityId },
         };
         
         try {
