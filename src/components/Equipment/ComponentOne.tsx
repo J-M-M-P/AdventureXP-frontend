@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
 
+interface Equipment {
+    name: string;
+    totalUnits: number;
+    defectiveUnits: number;
+    value: string;
+    activityName: string;
+    label: string;
+    // Tilføj flere egenskaber efter behov
+}
+
 export default function ComponentOne() {
     // State til at gemme de hentede data
-    const [activity, setActivity] = useState([]);
+    const [activity, setActivity] = useState<Equipment[]>([]);
 
-    const [selectedOption, setSelectedOption] = useState(null); // Til at gemme det valgte objekt
+    const [selectedOption, setSelectedOption] = useState<Equipment | null>(null); // Til at gemme det valgte objekt
 
     // Funktion til at hente data fra backend
     const fetchData = async () => {

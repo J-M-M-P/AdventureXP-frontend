@@ -81,6 +81,7 @@ export default function UtilityComponent3() {
             defectiveUnits: updatedDefectiveUnits,
             activityId: selectedEquipment.activityId,
             activityName: selectedEquipment.activityName,
+            //@ts-expect-error do not know how to fix this
             activity: { id: selectedEquipment.activityId },
         };
 
