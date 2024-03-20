@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ReservationTable from "../components/Reservation/ReservationTable";
 import ReservationWeek from "../components/Reservation/ReservationWeek";
-import { getReservations } from "../service/apiFacade";
+import { getReservations, getActivities } from "../service/apiFacade";
 
 declare global {
     interface Date {
@@ -9,12 +9,18 @@ declare global {
     }
 }
 
+interface ActivityProps {
+    activityName: string;
+}
+
 function Reservation() {
     const [currentWeek, setCurrentWeek] = useState(new Date().getWeek());
+    const [activities, setActivities] = useState([]);
     const [bookedTimes, setBookedTimes] = useState<
         { reservationWeek: number; reservationTime: string; reservationDay: string }[]
     >([]);
 
+    // Fetch reservations from the database when the component mounts
     useEffect(() => {
         // Call getReservations() when the component mounts
         async function fetchReservations() {
@@ -26,7 +32,20 @@ function Reservation() {
             }
         }
         fetchReservations();
-    }, []); // Empty dependency array ensures it only runs once on mount
+    }, []);
+
+    // Fetch activities from the database when the component mounts
+    useEffect(() => {
+        async function fetchActivities() {
+            try {
+                const data = await getActivities();
+                setActivities(data);
+            } catch (error) {
+                console.error("Error fetching activities:", error);
+            }
+        }
+        fetchActivities();
+    });
 
     const handleReservation = (
         newBookedTimes: { reservationWeek: number; reservationTime: string; reservationDay: string }[]
@@ -48,6 +67,20 @@ function Reservation() {
         <>
             <div className="container-sm justify-content-center">
                 <h1 className="mb-5 text-center">Reservation</h1>
+                <select
+                    name="changeActivity"
+                    id="changeActivity"
+                    className="form-select mx-auto mb-5"
+                    aria-label="Default select example"
+                    style={{ width: "150px" }}
+                >
+                    <option selected>Vælg aktivitet</option>
+                    {activities.map((activity: ActivityProps) => (
+                        <option key={activity.activityName} value={activity.activityName}>
+                            {activity.activityName}
+                        </option>
+                    ))}
+                </select>
                 <ReservationTable
                     currentWeek={currentWeek}
                     bookedTimes={bookedTimes}
