@@ -15,6 +15,7 @@ export interface Equipment {
     // Add other properties as needed
 }
 
+
 export default function UtilityComponent3() {
     const [activity, setActivity] = useState("");
     const [utilityType, setUtilityType] = useState("");
@@ -91,6 +92,7 @@ export default function UtilityComponent3() {
             const updatedEquipmentData = await updateEquipmentInDatabase(selectedEquipment.id, updatedEquipment);
             console.log("Equipment updated successfully:", updatedEquipmentData);
             // Optionally, you can show a success message to the user
+             window.location.reload();
         } catch (error) {
             console.error("Failed to update equipment:", error);
             // Handle the error appropriately, maybe show a message to the user
