@@ -1,9 +1,19 @@
 // Activity.tsx
 
-import activityCards from "../testingLists/activities";
+import { useState, useEffect } from "react";
 import ActivityCard from "../components/Activity/ActivityCard";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+//import { useEffect } from "react";
+import { getActivities } from "../service/apiFacade";
+
+interface ActivityCardProps {
+    id: number;
+    image: string;
+    activityName: string;
+    description: string;
+    ageLimit: number;
+    participantLimit: number;
+}
 
 export default function Activity() {
     let { id } = useParams();
@@ -17,17 +27,31 @@ export default function Activity() {
         }
     }, [id]);
 
+    const [activityCards, setActivityCards] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getActivities();
+                setActivityCards(data);
+            } catch (error) {
+                console.error("Error fetching activities:", error);
+            }
+        };
+        fetchData();
+    }, []);
+
     return (
         <>
             <h2 className="text-center">Aktivitet</h2>
             <div className="container-fluid">
                 <div className="row row-cols-2 row-gap-5 column-gap-1 justify-content-center">
-                    {activityCards.map((card) => (
+                    {activityCards.map((card: ActivityCardProps) => (
                         <ActivityCard
                             key={card.id}
                             id={card.id}
                             image={card.image}
-                            activityName={card.activityName}
+                            activityName={card.activityName} // "title" i stedet for "activityName"
                             description={card.description}
                             ageLimit={card.ageLimit}
                             participantLimit={card.participantLimit}
