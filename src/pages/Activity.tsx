@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { getActivities } from "../service/apiFacade";
 
 interface ActivityCardProps {
+    id: number;
     image: string;
     activityName: string;
     description: string;
