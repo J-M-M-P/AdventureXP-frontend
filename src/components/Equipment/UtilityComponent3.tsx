@@ -81,7 +81,7 @@ export default function UtilityComponent3() {
             defectiveUnits: updatedDefectiveUnits,
             activityId: selectedEquipment.activityId,
             activityName: selectedEquipment.activityName,
-            //@ts-expect-error do not know how to fix this
+            //@ts-expect-error activity is not part of EquipmentDto, but backend expects an activty with id in it
             activity: { id: selectedEquipment.activityId },
         };
 
