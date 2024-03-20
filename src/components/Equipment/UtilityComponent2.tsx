@@ -89,7 +89,8 @@ export default function UtilityComponent2() {
             const updatedEquipmentData = await updateEquipmentInDatabase(selectedEquipment.id, updatedEquipment);
             console.log("Equipment updated successfully:", updatedEquipmentData);
             // Optionally, you can show a success message to the user
-             window.location.reload();
+            //Reload page to get access to updated equipment. Not the best solution, but it works for now
+            window.location.reload();
         } catch (error) {
             console.error("Failed to update equipment:", error);
             // Handle the error appropriately, maybe show a message to the user
