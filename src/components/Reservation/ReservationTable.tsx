@@ -3,31 +3,38 @@ import { addReservation } from "../../service/apiFacade";
 
 interface Props {
     currentWeek: number;
-    bookedTimes: { reservationWeek: number; reservationTime: string; reservationDay: string }[];
+    bookedTimes: { reservationWeek: number; reservationTime: string; reservationDay: string; activityId: number }[];
     onReservation: (
-        newBookedTimes: { reservationWeek: number; reservationTime: string; reservationDay: string }[]
+        newBookedTimes: {
+            reservationWeek: number;
+            reservationTime: string;
+            reservationDay: string;
+            activityId: number;
+        }[]
     ) => void;
+    activityId?: number;
 }
 
-function ReservationTable({ currentWeek, bookedTimes, onReservation }: Props) {
+function ReservationTable({ currentWeek, bookedTimes, onReservation, activityId }: Props) {
     const [selectedTime, setSelectedTime] = useState("");
     const [selectedDay, setSelectedDay] = useState("");
     const [selectedWeek, setSelectedWeek] = useState(0);
     const [name, setName] = useState("");
 
     const handleReservation = () => {
-        if (name !== "") {
+        if (name !== "" && activityId !== undefined) {
             const newReservation = {
                 reservationWeek: selectedWeek,
                 reservationTime: selectedTime,
                 reservationDay: selectedDay,
+                activityId: activityId,
                 // name: name,
                 bookedStatus: true,
             };
-            // Tilføj reservation til databasen
+            // Add reservation to the database
             addReservation(newReservation)
                 .then(() => {
-                    // Opdater frontend, hvis reservationen blev tilføjet succesfuldt
+                    // Update frontend if reservation was added successfully
                     const newBookedTimes = [
                         ...bookedTimes,
                         {
@@ -35,6 +42,7 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation }: Props) {
                             reservationTime: selectedTime,
                             reservationDay: selectedDay,
                             name: name,
+                            activityId: activityId,
                         },
                     ];
                     onReservation(newBookedTimes);
@@ -73,7 +81,8 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation }: Props) {
                             (booking) =>
                                 booking.reservationWeek === currentWeek &&
                                 booking.reservationTime === row.time &&
-                                booking.reservationDay === day
+                                booking.reservationDay === day &&
+                                booking.activityId === activityId
                         );
                         return (
                             <td

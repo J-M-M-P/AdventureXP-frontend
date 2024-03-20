@@ -17,10 +17,9 @@ interface ActivityProps {
 function Reservation() {
     const [currentWeek, setCurrentWeek] = useState(new Date().getWeek());
     const [activities, setActivities] = useState([]);
-    const [activeActivity, setActiveActivity] = useState("");
     const [activityId, setActivityId] = useState<number | undefined>(undefined);
     const [bookedTimes, setBookedTimes] = useState<
-        { reservationWeek: number; reservationTime: string; reservationDay: string }[]
+        { reservationWeek: number; reservationTime: string; reservationDay: string; activityId: number }[]
     >([]);
 
     // ====================== \\
@@ -42,12 +41,9 @@ function Reservation() {
 
     const handleActivityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedActivity = event.target.value;
-        setActiveActivity(selectedActivity);
         activities.find((item: Activity) => {
             if (item.activityName === selectedActivity) {
                 setActivityId(item.id || undefined);
-                // console.log(item.id);
-                // console.log(item.activityName);
             }
         });
     };
@@ -71,7 +67,12 @@ function Reservation() {
     }, []);
 
     const handleReservation = (
-        newBookedTimes: { reservationWeek: number; reservationTime: string; reservationDay: string }[]
+        newBookedTimes: {
+            reservationWeek: number;
+            reservationTime: string;
+            reservationDay: string;
+            activityId: number;
+        }[]
     ) => {
         setBookedTimes(newBookedTimes);
         console.log("Reservation confirmed!");
@@ -113,6 +114,7 @@ function Reservation() {
                     currentWeek={currentWeek}
                     bookedTimes={bookedTimes}
                     onReservation={handleReservation}
+                    activityId={activityId}
                 />
             </div>
             <div className="container-sm justify-content-center">
