@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ReservationTable from "../components/Reservation/ReservationTable";
 import ReservationWeek from "../components/Reservation/ReservationWeek";
 import { getReservations, getActivities } from "../service/apiFacade";
+import { Activity } from "../service/apiFacade";
 
 declare global {
     interface Date {
@@ -16,6 +17,8 @@ interface ActivityProps {
 function Reservation() {
     const [currentWeek, setCurrentWeek] = useState(new Date().getWeek());
     const [activities, setActivities] = useState([]);
+    const [activeActivity, setActiveActivity] = useState("");
+    const [activityId, setActivityId] = useState<number | undefined>(undefined);
     const [bookedTimes, setBookedTimes] = useState<
         { reservationWeek: number; reservationTime: string; reservationDay: string }[]
     >([]);
@@ -38,7 +41,15 @@ function Reservation() {
     }, []);
 
     const handleActivityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        console.log(event.target.value);
+        const selectedActivity = event.target.value;
+        setActiveActivity(selectedActivity);
+        activities.find((item: Activity) => {
+            if (item.activityName === selectedActivity) {
+                setActivityId(item.id || undefined);
+                // console.log(item.id);
+                // console.log(item.activityName);
+            }
+        });
     };
 
     // ======================= \\
