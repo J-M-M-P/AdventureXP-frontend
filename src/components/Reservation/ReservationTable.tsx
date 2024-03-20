@@ -47,22 +47,6 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation }: Props) {
         } else {
             alert("Indtast venligst et navn.");
         }
-
-        // if (name !== "") {
-        //     const newBookedTimes = [
-        //         ...bookedTimes,
-        //         {
-        //             reservationWeek: selectedWeek,
-        //             reservationTime: selectedTime,
-        //             reservationDay: selectedDay,
-        //             name: name,
-        //         },
-        //     ];
-        //     onReservation(newBookedTimes);
-        //     setName("");
-        // } else {
-        //     alert("Indtast venligst et navn.");
-        // }
     };
 
     // Funktion til at generere rækker med tidsintervaller for en given kolonne
