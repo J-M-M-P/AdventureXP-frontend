@@ -16,8 +16,7 @@ interface ActivityCardProps {
 }
 
 export default function Activity() {
-    let { id } = useParams();
-    console.log("ID: ", id);
+    const { id } = useParams();
 
     useEffect(() => {
         if (id) {
