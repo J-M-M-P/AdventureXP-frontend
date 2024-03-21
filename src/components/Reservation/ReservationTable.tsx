@@ -21,6 +21,8 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation, activityId,
     const [selectedDay, setSelectedDay] = useState("");
     const [selectedWeek, setSelectedWeek] = useState(0);
     const [name, setName] = useState("");
+    const [bookingType, setBookingType] = useState("Private");
+    const [companyCVR, setCompanyCVR] = useState<number | undefined>(undefined);
 
     const handleReservation = () => {
         if (name !== "" && activityId !== undefined) {
@@ -36,23 +38,43 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation, activityId,
             addReservation(newReservation)
                 .then(() => {
                     // Update frontend if reservation was added successfully
-                    const newBookedTimes = [
-                        ...bookedTimes,
-                        {
-                            reservationWeek: selectedWeek,
-                            reservationTime: selectedTime,
-                            reservationDay: selectedDay,
-                            name: name,
-                            activityId: activityId,
-                        },
-                    ];
-                    onReservation(newBookedTimes);
-                    setName("");
+                    console.log(bookingType);
+                    console.log(companyCVR);
+
+                    if (bookingType === "Private") {
+                        const newBookedTimes = [
+                            ...bookedTimes,
+                            {
+                                reservationWeek: selectedWeek,
+                                reservationTime: selectedTime,
+                                reservationDay: selectedDay,
+                                reservationType: { bookingType: bookingType, name: name },
+                                activityId: activityId,
+                            },
+                        ];
+                        onReservation(newBookedTimes);
+                        setName("");
+                    } else if (bookingType === "Erhverv") {
+                        const newBookedTimes = [
+                            ...bookedTimes,
+                            {
+                                reservationWeek: selectedWeek,
+                                reservationTime: selectedTime,
+                                reservationDay: selectedDay,
+                                reservationType: { bookingType: bookingType, name: name, companyCVR: companyCVR },
+                                activityId: activityId,
+                            },
+                        ];
+                        onReservation(newBookedTimes);
+                        setName("");
+                    }
                 })
                 .catch((error) => {
                     console.error("Error adding reservation:", error);
                     alert("Der skete en fejl under reservationen. Prøv venligst igen.");
                 });
+        } else if (activityId === undefined) {
+            alert("Vælg venligst en anden aktivitet end 'Vælg aktivitet' tak :)");
         } else {
             alert("Indtast venligst et navn.");
         }
@@ -174,9 +196,48 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation, activityId,
                             <input
                                 type="text"
                                 className="form-control"
+                                id="nameInput"
                                 placeholder="Indtast dit navn"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
+                            />
+                            <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                <input
+                                    type="radio"
+                                    className="btn-check"
+                                    name="btnradio"
+                                    id="btnradio1"
+                                    value={"Private"}
+                                    onChange={(e) => setBookingType(e.target.value)}
+                                    autoComplete="off"
+                                    checked
+                                />
+                                <label className="btn btn-outline-secondary" htmlFor={"btnradio1"}>
+                                    Private
+                                </label>
+
+                                <input
+                                    type="radio"
+                                    className="btn-check"
+                                    name="btnradio"
+                                    id="btnradio2"
+                                    value={"Erhverv"}
+                                    onChange={(e) => setBookingType(e.target.value)}
+                                    autoComplete="off"
+                                />
+                                <label className="btn btn-outline-secondary" htmlFor="btnradio2">
+                                    Erhverv
+                                </label>
+                            </div>
+                            <input
+                                type="number"
+                                className="form-control"
+                                id="nameInput"
+                                placeholder="Indtast dit CVR-nummer (8 cifre)"
+                                value={companyCVR}
+                                onChange={(e) => setCompanyCVR(Number(e.target.value))}
+                                minLength={8}
+                                maxLength={8}
                             />
                         </div>
                         <div className="modal-footer">
