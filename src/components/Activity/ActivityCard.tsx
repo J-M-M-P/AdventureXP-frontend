@@ -21,17 +21,17 @@ export default function ActivityCard({
 
     const handleCompanyClick = () => {
         console.log("Book erhverv " + activityName);
-        navigate("/reservation");
+        navigate("/reservation", { state: { reservationType: "Erhverv", activityName, id } });
     };
 
     const handlePrivateClick = () => {
         console.log("Book privat " + activityName);
-        navigate("/reservation");
+        navigate("/reservation", { state: { reservationType: "Privat", activityName, id } });
     };
 
     return (
         <>
-            <div id={`activity-card-${id}`}className="card">
+            <div id={`activity-card-${id}`} className="card">
                 <div className="row">
                     <div className="col-md-4">
                         <img src={image} className="img-fluid"></img>
@@ -49,5 +49,4 @@ export default function ActivityCard({
             </div>
         </>
     );
-
 }
