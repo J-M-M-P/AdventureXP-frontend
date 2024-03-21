@@ -1,17 +1,27 @@
 import React, { useState, useEffect } from "react";
+import { getEquipment } from "../../service/apiFacade";
+
+interface Equipment {
+    name: string;
+    totalUnits: number;
+    defectiveUnits: number;
+    value: string;
+    activityName: string;
+    label: string;
+    // Tilføj flere egenskaber efter behov
+}
 
 export default function ComponentOne() {
     // State til at gemme de hentede data
-    const [activity, setActivity] = useState([]);
+    const [activity, setActivity] = useState<Equipment[]>([]);
 
-    const [selectedOption, setSelectedOption] = useState(null); // Til at gemme det valgte objekt
+    const [selectedOption, setSelectedOption] = useState<Equipment | null>(null); // Til at gemme det valgte objekt
 
     // Funktion til at hente data fra backend
     const fetchData = async () => {
         try {
-            // Hent data fra backend (erstat URL'en med din backend-endpoint)
-            const response = await fetch("http://localhost:8080/api/equipment");
-            const equipmentData = await response.json();
+            // Hent data fra backend API
+            const equipmentData = await getEquipment();
 
             // Opdater state med de hentede data
             setActivity(equipmentData);

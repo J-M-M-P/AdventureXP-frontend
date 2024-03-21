@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../security/AuthProvider";
 
 export default function NavRoutes() {
     return (
@@ -18,11 +19,13 @@ export default function NavRoutes() {
                     Reservation
                 </NavLink>
             </li>
+            {useAuth().isLoggedIn() && (
             <li className="nav-item">
                 <NavLink className={"nav-link"} to="/utility">
                     Udstyr
                 </NavLink>
-            </li>
+                </li>
+            )}
         </ul>
     );
 }

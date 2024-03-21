@@ -1,7 +1,9 @@
 import { Equipment } from "../components/Equipment/UtilityComponent3";
 import { makeOptions, handleHttpErrors } from "./fetchUtils";
+import { API_URL } from "../settings";
 
-const endpoint = "http://127.0.0.1:8080";
+// const endpoint = "http://127.0.0.1:8080";
+const endpoint = API_URL;
 
 // ----- INTERFACES ----- \\
 interface Activity {
