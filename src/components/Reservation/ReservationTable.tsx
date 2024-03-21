@@ -67,7 +67,7 @@ function ReservationTable({
                         ];
                         onReservation(newBookedTimes);
                         setName("");
-                    } else if (bookingType === "Erhverv" && companyCVR.length === 8 && companyCVR !== "") {
+                    } else if (bookingType === "Erhverv") {
                         const newBookedTimes = [
                             ...bookedTimes,
                             {
@@ -92,8 +92,6 @@ function ReservationTable({
                 });
         } else if (activityId === undefined) {
             alert("Vælg venligst en anden aktivitet end 'Vælg aktivitet' tak :)");
-        } else if (companyCVR.length !== 8) {
-            alert("Indtast venligst et gyldigt CVR-nummer (8 cifre).");
         } else {
             alert("Indtast venligst et navn.");
         }
