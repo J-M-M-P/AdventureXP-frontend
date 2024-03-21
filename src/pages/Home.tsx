@@ -34,7 +34,7 @@ export default function Home() {
                             key={card.id}
                             id={card.id}
                             imageSrc={card.imageSrc}
-                            title={card.title}
+                            title={card.activityName}
                             description={card.description}
                         />
                     ))}

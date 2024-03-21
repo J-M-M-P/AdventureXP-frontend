@@ -17,15 +17,22 @@ interface ActivityCardProps {
 
 export default function Activity() {
     let { id } = useParams();
+    console.log("ID: ", id);
 
     useEffect(() => {
         if (id) {
-            const element = document.getElementById(`activity-card-${id}`);
-            if (element) {
-                element.scrollIntoView({ behavior: "smooth" });
-            }
+            const scrollToElement = () => {
+                const element = document.getElementById(`activity-card-${id}`);
+                if (element) {
+                    element.scrollIntoView({ behavior: "smooth" });
+                }
+            };
+    
+            // Delay scrolling to ensure elements are rendered
+            setTimeout(scrollToElement, 100);
         }
     }, [id]);
+    
 
     const [activityCards, setActivityCards] = useState([]);
 
