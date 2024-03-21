@@ -21,6 +21,7 @@ function Reservation() {
     const [currentWeek, setCurrentWeek] = useState(new Date().getWeek());
     const [activities, setActivities] = useState([]);
     const [activeActivity, setActiveActivity] = useState("");
+    const [reservationType, setReservationType] = useState("");
     const [activityId, setActivityId] = useState<number | undefined>(undefined);
     const [bookedTimes, setBookedTimes] = useState<
         { reservationWeek: number; reservationTime: string; reservationDay: string; activityId: number }[]
@@ -35,9 +36,9 @@ function Reservation() {
     useEffect(() => {
         if (state) {
             const { reservationType, activityName, id } = state;
+            setReservationType(reservationType);
             setActiveActivity(activityName);
             setActivityId(id);
-            console.log(`Book ${reservationType} ${activityName} with id ${id}`);
         }
     }, [state]);
 
@@ -126,7 +127,7 @@ function Reservation() {
                     value={activeActivity}
                     className="form-select mx-auto mb-5"
                     aria-label="Default select example"
-                    style={{ width: "150px" }}
+                    style={{ width: "165px" }}
                 >
                     <option defaultChecked>Vælg aktivitet</option>
                     {activities.map((activity: ActivityProps) => (
@@ -142,6 +143,7 @@ function Reservation() {
                     onReservation={handleReservation}
                     activityId={activityId}
                     activeActivity={activeActivity}
+                    reservationType={reservationType}
                 />
             </div>
             <div className="container-sm justify-content-center">

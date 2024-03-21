@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addReservation } from "../../service/apiFacade";
 
 interface Props {
@@ -14,15 +14,31 @@ interface Props {
     ) => void;
     activityId?: number;
     activeActivity: string;
+    reservationType: string;
 }
 
-function ReservationTable({ currentWeek, bookedTimes, onReservation, activityId, activeActivity }: Props) {
+function ReservationTable({
+    currentWeek,
+    bookedTimes,
+    onReservation,
+    activityId,
+    activeActivity,
+    reservationType,
+}: Props) {
     const [selectedTime, setSelectedTime] = useState("");
     const [selectedDay, setSelectedDay] = useState("");
     const [selectedWeek, setSelectedWeek] = useState(0);
     const [name, setName] = useState("");
-    const [bookingType, setBookingType] = useState("Private");
-    const [companyCVR, setCompanyCVR] = useState<number | undefined>(undefined);
+    const [bookingType, setBookingType] = useState("Privat");
+    const [companyCVR, setCompanyCVR] = useState("");
+
+    useEffect(() => {
+        if (reservationType === "Erhverv") {
+            setBookingType("Erhverv");
+        } else {
+            setBookingType("Privat");
+        }
+    }, [reservationType]);
 
     const handleReservation = () => {
         if (name !== "" && activityId !== undefined) {
@@ -38,10 +54,7 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation, activityId,
             addReservation(newReservation)
                 .then(() => {
                     // Update frontend if reservation was added successfully
-                    console.log(bookingType);
-                    console.log(companyCVR);
-
-                    if (bookingType === "Private") {
+                    if (bookingType === "Privat") {
                         const newBookedTimes = [
                             ...bookedTimes,
                             {
@@ -54,14 +67,18 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation, activityId,
                         ];
                         onReservation(newBookedTimes);
                         setName("");
-                    } else if (bookingType === "Erhverv") {
+                    } else if (bookingType === "Erhverv" && companyCVR.length === 8 && companyCVR !== "") {
                         const newBookedTimes = [
                             ...bookedTimes,
                             {
                                 reservationWeek: selectedWeek,
                                 reservationTime: selectedTime,
                                 reservationDay: selectedDay,
-                                reservationType: { bookingType: bookingType, name: name, companyCVR: companyCVR },
+                                reservationType: {
+                                    bookingType: bookingType,
+                                    name: name,
+                                    companyCVR: Number(companyCVR),
+                                },
                                 activityId: activityId,
                             },
                         ];
@@ -75,6 +92,8 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation, activityId,
                 });
         } else if (activityId === undefined) {
             alert("Vælg venligst en anden aktivitet end 'Vælg aktivitet' tak :)");
+        } else if (companyCVR.length !== 8) {
+            alert("Indtast venligst et gyldigt CVR-nummer (8 cifre).");
         } else {
             alert("Indtast venligst et navn.");
         }
@@ -162,10 +181,7 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation, activityId,
                         <th>Søndag</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {/* Generer rækker med tidsintervaller for den aktuelle uge */}
-                    {generateTimeRows()}
-                </tbody>
+                <tbody>{generateTimeRows()}</tbody>
             </table>
             <div
                 className="modal fade"
@@ -207,13 +223,13 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation, activityId,
                                     className="btn-check"
                                     name="btnradio"
                                     id="btnradio1"
-                                    value={"Private"}
+                                    value={"Privat"}
                                     onChange={(e) => setBookingType(e.target.value)}
                                     autoComplete="off"
-                                    checked
+                                    checked={bookingType === "Privat"}
                                 />
                                 <label className="btn btn-outline-secondary" htmlFor={"btnradio1"}>
-                                    Private
+                                    Privat
                                 </label>
 
                                 <input
@@ -224,21 +240,32 @@ function ReservationTable({ currentWeek, bookedTimes, onReservation, activityId,
                                     value={"Erhverv"}
                                     onChange={(e) => setBookingType(e.target.value)}
                                     autoComplete="off"
+                                    checked={bookingType === "Erhverv"}
                                 />
                                 <label className="btn btn-outline-secondary" htmlFor="btnradio2">
                                     Erhverv
                                 </label>
                             </div>
-                            <input
-                                type="number"
-                                className="form-control"
-                                id="nameInput"
-                                placeholder="Indtast dit CVR-nummer (8 cifre)"
-                                value={companyCVR}
-                                onChange={(e) => setCompanyCVR(Number(e.target.value))}
-                                minLength={8}
-                                maxLength={8}
-                            />
+
+                            {bookingType === "Erhverv" && (
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    id="nameInput"
+                                    placeholder="Indtast dit CVR-nummer (8 cifre)"
+                                    value={companyCVR}
+                                    onChange={(e) => setCompanyCVR(e.target.value)}
+                                    minLength={8}
+                                    maxLength={8}
+                                    onKeyDown={(e) => {
+                                        // Tillad kun numeriske værdier
+                                        const charCode = e.which ? e.which : e.keyCode;
+                                        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
+                            )}
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
