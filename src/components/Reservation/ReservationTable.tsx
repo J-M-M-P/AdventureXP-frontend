@@ -42,54 +42,49 @@ function ReservationTable({
 
     const handleReservation = () => {
         if (name !== "" && activityId !== undefined) {
-            const newReservation = {
-                reservationWeek: selectedWeek,
-                reservationTime: selectedTime,
-                reservationDay: selectedDay,
-                activityId: activityId,
-                // name: name,
-                bookedStatus: true,
-            };
-            // Add reservation to the database
-            addReservation(newReservation)
-                .then(() => {
-                    // Update frontend if reservation was added successfully
-                    if (bookingType === "Privat") {
+            if (
+                (bookingType === "Erhverv" && companyCVR.length === 8) ||
+                (bookingType === "Privat" && companyCVR.length !== 0)
+            ) {
+                const newReservation = {
+                    reservationWeek: selectedWeek,
+                    reservationTime: selectedTime,
+                    reservationDay: selectedDay,
+                    bookingType: bookingType,
+                    reservationName: name,
+                    companyCVR: Number(companyCVR),
+                    activityId: activityId,
+                    bookedStatus: true,
+                };
+
+                addReservation(newReservation)
+                    .then(() => {
                         const newBookedTimes = [
                             ...bookedTimes,
                             {
                                 reservationWeek: selectedWeek,
                                 reservationTime: selectedTime,
                                 reservationDay: selectedDay,
-                                reservationType: { bookingType: bookingType, name: name },
                                 activityId: activityId,
                             },
                         ];
                         onReservation(newBookedTimes);
                         setName("");
-                    } else if (bookingType === "Erhverv") {
-                        const newBookedTimes = [
-                            ...bookedTimes,
-                            {
-                                reservationWeek: selectedWeek,
-                                reservationTime: selectedTime,
-                                reservationDay: selectedDay,
-                                reservationType: {
-                                    bookingType: bookingType,
-                                    name: name,
-                                    companyCVR: Number(companyCVR),
-                                },
-                                activityId: activityId,
-                            },
-                        ];
-                        onReservation(newBookedTimes);
-                        setName("");
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error adding reservation:", error);
-                    alert("Der skete en fejl under reservationen. Prøv venligst igen.");
-                });
+                        setCompanyCVR("");
+                    })
+                    .catch((error) => {
+                        console.error("Error adding reservation:", error);
+                        alert("Der skete en fejl under reservationen. Prøv venligst igen.");
+                    });
+            } else if (bookingType === "Erhverv" && companyCVR.length !== 8) {
+                if (companyCVR.length < 8) {
+                    alert("CVR-nummeret er for kort. Prøv igen.");
+                } else if (companyCVR.length > 8) {
+                    alert("CVR-nummeret er for langt. Prøv igen.");
+                } else if (companyCVR.length === 0) {
+                    alert("Indtast venligst et CVR-nummer på 8 cifre.");
+                }
+            }
         } else if (activityId === undefined) {
             alert("Vælg venligst en anden aktivitet end 'Vælg aktivitet' tak :)");
         } else {
