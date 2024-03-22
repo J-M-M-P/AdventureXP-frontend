@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import ReservationTable from "../components/Reservation/ReservationTable";
 import ReservationWeek from "../components/Reservation/ReservationWeek";
+import { getReservations, getActivities } from "../service/apiFacade";
+import { Activity } from "../service/apiFacade";
 
 declare global {
     interface Date {
@@ -8,8 +11,102 @@ declare global {
     }
 }
 
+interface ActivityProps {
+    activityName: string;
+}
+
 function Reservation() {
+    const location = useLocation();
+    const { state } = location;
     const [currentWeek, setCurrentWeek] = useState(new Date().getWeek());
+    const [activities, setActivities] = useState([]);
+    const [activeActivity, setActiveActivity] = useState("");
+    const [reservationType, setReservationType] = useState("");
+    const [activityId, setActivityId] = useState<number | undefined>(undefined);
+    const [bookedTimes, setBookedTimes] = useState<
+        { reservationWeek: number; reservationTime: string; reservationDay: string; activityId: number }[]
+    >([]);
+
+    // ======================== \\
+    // ===== ActivityCard ===== \\
+    // ======================== \\
+
+    // If the user navigated to the reservation page from an activity card
+    // the activity name and id will be passed in the location state
+    useEffect(() => {
+        if (state) {
+            const { reservationType, activityName, id } = state;
+            setReservationType(reservationType);
+            setActiveActivity(activityName);
+            setActivityId(id);
+        }
+    }, [state]);
+
+    // ====================== \\
+    // ===== ACTIVITIES ===== \\
+    // ====================== \\
+
+    // Fetch activities from the database when the component mounts
+    useEffect(() => {
+        async function fetchActivities() {
+            try {
+                const data = await getActivities();
+                setActivities(data);
+            } catch (error) {
+                console.error("Error fetching activities:", error);
+            }
+        }
+        fetchActivities();
+    }, []);
+
+    const handleActivityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        if (event.target.value === "Vælg aktivitet") {
+            setActiveActivity("");
+            setActivityId(undefined);
+        }
+        const selectedActivity = event.target.value;
+        setActiveActivity(selectedActivity);
+        activities.find((item: Activity) => {
+            if (item.activityName === selectedActivity) {
+                setActivityId(item.id || undefined);
+            }
+        });
+    };
+
+    // ======================= \\
+    // ===== RESERVATION ===== \\
+    // ======================= \\
+
+    // Fetch reservations from the database when the component mounts
+    useEffect(() => {
+        // Call getReservations() when the component mounts
+        async function fetchReservations() {
+            try {
+                const reservations = await getReservations();
+                setBookedTimes(reservations);
+            } catch (error) {
+                console.error("Error fetching reservations:", error);
+            }
+        }
+        fetchReservations();
+    }, []);
+
+    const handleReservation = (
+        newBookedTimes: {
+            reservationWeek: number;
+            reservationTime: string;
+            reservationDay: string;
+            activityId: number;
+        }[]
+    ) => {
+        setBookedTimes(newBookedTimes);
+        console.log("Reservation confirmed!");
+        console.log(newBookedTimes);
+    };
+
+    // =========================== \\
+    // ===== WEEK NAVIGATION ===== \\
+    // =========================== \\
 
     const handlePrevWeek = () => {
         setCurrentWeek(currentWeek - 1);
@@ -23,9 +120,30 @@ function Reservation() {
         <>
             <div className="container-sm justify-content-center">
                 <h1 className="mb-5 text-center">Reservation</h1>
+                <select
+                    name="changeActivity"
+                    id="changeActivity"
+                    onChange={handleActivityChange}
+                    value={activeActivity}
+                    className="form-select mx-auto mb-5"
+                    aria-label="Default select example"
+                    style={{ width: "165px" }}
+                >
+                    <option defaultChecked>Vælg aktivitet</option>
+                    {activities.map((activity: ActivityProps) => (
+                        <option key={activity.activityName} value={activity.activityName}>
+                            {activity.activityName}
+                        </option>
+                    ))}
+                </select>
+
                 <ReservationTable
                     currentWeek={currentWeek}
-                    bookedTimes={[{ week: 14, time: "19:30 - 21:00", day: "Fredag" }]}
+                    bookedTimes={bookedTimes}
+                    onReservation={handleReservation}
+                    activityId={activityId}
+                    activeActivity={activeActivity}
+                    reservationType={reservationType}
                 />
             </div>
             <div className="container-sm justify-content-center">

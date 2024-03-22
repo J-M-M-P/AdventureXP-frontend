@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import NavRoutes from "./NavRoutes";
+import AuthStatus from "../../security/AuthStatus";
 
 export default function NavHeader() {
     return (
@@ -11,11 +12,12 @@ export default function NavHeader() {
                     </NavLink>
                     <NavRoutes />
                     <ul className="navbar-nav d-flex">
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <NavLink className={"nav-link "} to="/login">
                                 Login
                             </NavLink>
-                        </li>
+                        </li> */}
+                        <AuthStatus />
                     </ul>
                 </div>
             </nav>
