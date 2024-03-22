@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import ActivityCard from "../components/Activity/ActivityCard";
 import { useParams } from "react-router-dom";
-//import { useEffect } from "react";
 import { getActivities } from "../service/apiFacade";
 
 interface ActivityCardProps {
@@ -26,12 +25,11 @@ export default function Activity() {
                     element.scrollIntoView({ behavior: "smooth" });
                 }
             };
-    
+
             // Delay scrolling to ensure elements are rendered
-            setTimeout(scrollToElement, 100);
+            setTimeout(scrollToElement, 200);
         }
     }, [id]);
-    
 
     const [activityCards, setActivityCards] = useState([]);
 

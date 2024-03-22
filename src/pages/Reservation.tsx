@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import ReservationTable from "../components/Reservation/ReservationTable";
 import ReservationWeek from "../components/Reservation/ReservationWeek";
 import { getReservations, getActivities } from "../service/apiFacade";
@@ -15,13 +16,31 @@ interface ActivityProps {
 }
 
 function Reservation() {
+    const location = useLocation();
+    const { state } = location;
     const [currentWeek, setCurrentWeek] = useState(new Date().getWeek());
     const [activities, setActivities] = useState([]);
     const [activeActivity, setActiveActivity] = useState("");
+    const [reservationType, setReservationType] = useState("");
     const [activityId, setActivityId] = useState<number | undefined>(undefined);
     const [bookedTimes, setBookedTimes] = useState<
         { reservationWeek: number; reservationTime: string; reservationDay: string; activityId: number }[]
     >([]);
+
+    // ======================== \\
+    // ===== ActivityCard ===== \\
+    // ======================== \\
+
+    // If the user navigated to the reservation page from an activity card
+    // the activity name and id will be passed in the location state
+    useEffect(() => {
+        if (state) {
+            const { reservationType, activityName, id } = state;
+            setReservationType(reservationType);
+            setActiveActivity(activityName);
+            setActivityId(id);
+        }
+    }, [state]);
 
     // ====================== \\
     // ===== ACTIVITIES ===== \\
@@ -105,9 +124,10 @@ function Reservation() {
                     name="changeActivity"
                     id="changeActivity"
                     onChange={handleActivityChange}
+                    value={activeActivity}
                     className="form-select mx-auto mb-5"
                     aria-label="Default select example"
-                    style={{ width: "150px" }}
+                    style={{ width: "165px" }}
                 >
                     <option defaultChecked>Vælg aktivitet</option>
                     {activities.map((activity: ActivityProps) => (
@@ -116,12 +136,14 @@ function Reservation() {
                         </option>
                     ))}
                 </select>
+
                 <ReservationTable
                     currentWeek={currentWeek}
                     bookedTimes={bookedTimes}
                     onReservation={handleReservation}
                     activityId={activityId}
                     activeActivity={activeActivity}
+                    reservationType={reservationType}
                 />
             </div>
             <div className="container-sm justify-content-center">

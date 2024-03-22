@@ -39,7 +39,7 @@ async function getActivities() {
 async function getReservations() {
     const response = await fetch(`${endpoint}/api/reservations`).then(handleHttpErrors);
     reservations = [...response];
-    console.log(reservations);
+    // console.log(reservations);
     return reservations;
 }
 
